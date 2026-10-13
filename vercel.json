@@ -1,0 +1,48 @@
+{
+  "rewrites": [
+    {
+      "source": "/web-design-ethiopia",
+      "destination": "/web-design-ethiopia.html"
+    },
+    {
+      "source": "/web-development-ethiopia",
+      "destination": "/web-development-ethiopia.html"
+    },
+    {
+      "source": "/website-design-addis-ababa",
+      "destination": "/website-design-addis-ababa.html"
+    },
+    {
+      "source": "/ecommerce-development-ethiopia",
+      "destination": "/ecommerce-development-ethiopia.html"
+    },
+    {
+      "source": "/school-management-system-ethiopia",
+      "destination": "/school-management-system-ethiopia.html"
+    },
+    {
+      "source": "/custom-software-ethiopia",
+      "destination": "/custom-software-ethiopia.html"
+    },
+    {
+      "source": "/seo-ethiopia",
+      "destination": "/seo-ethiopia.html"
+    },
+    {
+      "source": "/website-redesign-ethiopia",
+      "destination": "/website-redesign-ethiopia.html"
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/portfolio.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/((?!.*\\.).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

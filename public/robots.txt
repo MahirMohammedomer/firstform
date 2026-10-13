@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://firstform.pro.et/sitemap.xml
