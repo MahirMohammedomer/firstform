@@ -53,7 +53,7 @@ export function Trust() {
               return (
                 <Reveal as="li" key={p.title} delay={i * 90} dir="right">
                   <article className="card-lift group h-full rounded-[24px] border border-ink-900/8 bg-white p-6 sm:p-7">
-                    <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent-50 text-accent-600 transition-all duration-500 group-hover:bg-accent-500 group-hover:text-white">
+                    <span className="accent-gradient grid h-11 w-11 place-items-center rounded-2xl text-accent-600 transition-all duration-500 group-hover:text-white">
                       <Icon width={20} height={20} />
                     </span>
                     <h3 className="mt-6 text-[17px] font-semibold tracking-tight text-ink-950">{p.title}</h3>

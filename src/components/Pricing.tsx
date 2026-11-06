@@ -181,7 +181,7 @@ export function Pricing() {
                 >
                   <div className="absolute -top-3.5 left-7 flex gap-2">
                     {popular && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-500 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-white shadow-lg shadow-accent-500/30">
+                      <span className="accent-gradient inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-white shadow-lg shadow-accent-500/30">
                         <Sparkle width={12} height={12} /> {t.pricing.popular}
                       </span>
                     )}

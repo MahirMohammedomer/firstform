@@ -30,7 +30,7 @@ export function Process() {
                   <div className="flex items-center justify-between">
                     <span className="relative grid h-[52px] w-[52px] place-items-center rounded-2xl bg-white text-ink-950 transition-transform duration-500 group-hover:scale-105">
                       <Icon width={22} height={22} />
-                      <span className="absolute -top-2 -right-2 grid h-6 w-6 place-items-center rounded-full bg-accent-500 text-[11px] font-bold text-white">
+                      <span className="accent-gradient absolute -top-2 -right-2 grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold text-white">
                         {i + 1}
                       </span>
                     </span>

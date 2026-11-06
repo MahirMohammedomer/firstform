@@ -90,7 +90,12 @@ export function Eyebrow({ children, className, light }: { children: ReactNode; c
         className,
       )}
     >
-      <span className={cn("h-1.5 w-1.5 rounded-full", light ? "bg-white/60" : "bg-accent-500")} />
+      <span
+        className={cn(
+          "h-1.5 w-1.5 rounded-full",
+          light ? "bg-white/60" : "accent-gradient",
+        )}
+      />
       {children}
     </span>
   );

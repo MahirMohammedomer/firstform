@@ -26,7 +26,7 @@ export function Logo({ className, light }: { className?: string; light?: boolean
       </span>
       <span className="min-w-0 flex flex-col leading-none">
         <span className={cn("text-[17px] font-semibold tracking-tight", light ? "text-white" : "text-ink-950")}>
-          First<span className="text-accent-500">form</span>
+          First<span className="accent-gradient-text">form</span>
         </span>
         <span className={cn("hidden sm:block text-[9px] font-medium tracking-[0.12em] uppercase mt-0.5 truncate", light ? "text-white/55" : "text-ink-400")}>
           We make the first impression
@@ -223,7 +223,7 @@ export function Navbar() {
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute top-0 left-0 h-[2px] w-full origin-left bg-gradient-to-r from-ink-950 via-accent-500 to-accent-400 transition-opacity duration-300"
+          className="pointer-events-none absolute top-0 left-0 h-[2px] w-full origin-left bg-gradient-to-r from-ink-950 via-accent-500 to-white transition-opacity duration-300"
           style={{ transform: `scaleX(${progress})`, opacity: scrolled ? 1 : 0 }}
         />
         <div className="container-x">
