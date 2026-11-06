@@ -10,7 +10,7 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="scroll-mt-24 bg-ink-50/70 py-20 sm:py-28">
+    <section id="faq" className="scroll-mt-24 bg-white py-20 sm:py-28">
       <div className="container-x">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">

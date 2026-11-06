@@ -9,19 +9,19 @@ export function Process() {
   const { t } = useLang();
 
   return (
-    <section id="process" className="relative scroll-mt-24 overflow-hidden bg-ink-950 py-20 text-white sm:py-28">
+    <section id="process" className="relative scroll-mt-24 overflow-hidden bg-white py-20 sm:py-28">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="drift absolute -top-32 right-0 h-[520px] w-[520px] rounded-full bg-accent-500/20 blur-[140px]" />
-        <div className="drift-slow absolute bottom-0 -left-20 h-[420px] w-[420px] rounded-full bg-emerald-400/10 blur-[120px]" />
+        <div className="drift absolute -top-32 right-0 h-[520px] w-[520px] rounded-full bg-accent-500/10 blur-[140px]" />
+        <div className="drift-slow absolute bottom-0 -left-20 h-[420px] w-[420px] rounded-full bg-accent-300/20 blur-[120px]" />
       </div>
 
       <div className="container-x relative">
         <Reveal>
-          <SectionHeader light eyebrow={t.process.eyebrow} title={t.process.title} subtitle={t.process.subtitle} />
+          <SectionHeader eyebrow={t.process.eyebrow} title={t.process.title} subtitle={t.process.subtitle} />
         </Reveal>
 
         <ol className="relative mt-16 grid gap-5 sm:mt-20 lg:grid-cols-4">
-          <div className="pointer-events-none absolute top-[38px] right-[12%] left-[12%] hidden h-px bg-gradient-to-r from-transparent via-white/25 to-transparent lg:block" aria-hidden />
+          <div className="pointer-events-none absolute top-[38px] right-[12%] left-[12%] hidden h-px bg-gradient-to-r from-transparent via-ink-900/15 to-transparent lg:block" aria-hidden />
           {t.process.steps.map((s, i) => {
             const Icon = icons[i];
             return (
@@ -46,7 +46,7 @@ export function Process() {
 
         <Reveal delay={200} className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <WhatsAppButton size="lg" className="w-full sm:w-auto" />
-          <TelegramButton size="lg" variant="white" className="w-full sm:w-auto" />
+          <TelegramButton size="lg" variant="secondary" className="w-full sm:w-auto" />
         </Reveal>
       </div>
     </section>

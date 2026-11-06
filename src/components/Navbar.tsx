@@ -217,7 +217,7 @@ export function Navbar() {
                 arrow
               >
                 {offer && (
-                  <span className="-ml-1 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-1.5 py-0.5 text-[10px] font-bold text-ink-950">
+                  <span className="-ml-1 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
                     {t.offer.off}
                   </span>
                 )}

@@ -147,7 +147,7 @@ export function ContactForm() {
           <Reveal className="lg:col-span-3" delay={80}>
             {status === "success" ? (
               <div className="flex flex-col items-center justify-center rounded-[28px] border border-ink-900/8 bg-white p-10 text-center shadow-soft">
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-emerald-600">
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-accent-50 text-accent-600">
                   <Check width={28} height={28} />
                 </span>
                 <p className="mt-5 text-[17px] font-semibold text-ink-950">{copy.success}</p>

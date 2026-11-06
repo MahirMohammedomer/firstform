@@ -40,7 +40,7 @@ export function FloatingContact() {
         {offer && (
           <a
             href="#pricing"
-            className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-2.5 py-0.5 text-[11px] font-bold whitespace-nowrap text-ink-950 shadow-md sm:left-auto sm:right-4 sm:translate-x-0"
+            className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-gradient-to-r from-accent-300 to-accent-600 px-2.5 py-0.5 text-[11px] font-bold whitespace-nowrap text-ink-950 shadow-md sm:left-auto sm:right-4 sm:translate-x-0"
           >
             {t.offer.dockBadge} · <CountdownInline ms={remaining} />
           </a>

@@ -7,11 +7,11 @@ import { cn } from "../utils/cn";
 const icons = [Clock, Shield, Award, Plane, Search, TrendingUp];
 const tones = [
   "from-accent-50 to-white text-accent-600",
-  "from-emerald-50 to-white text-emerald-600",
-  "from-amber-50 to-white text-amber-600",
-  "from-sky-50 to-white text-sky-600",
-  "from-rose-50 to-white text-rose-600",
-  "from-violet-50 to-white text-violet-600",
+  "from-accent-50 to-white text-accent-600",
+  "from-accent-50 to-white text-accent-600",
+  "from-accent-50 to-white text-accent-600",
+  "from-accent-50 to-white text-accent-600",
+  "from-accent-50 to-white text-accent-600",
 ];
 
 export function Why() {

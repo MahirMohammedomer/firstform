@@ -24,7 +24,7 @@ function Stars({ value, onChange, readonly }: { value: number; onChange?: (n: nu
           onClick={() => onChange?.(n)}
           className={cn(
             "text-[22px] leading-none transition-transform",
-            n <= value ? "text-amber-400" : "text-ink-200",
+            n <= value ? "text-accent-500" : "text-ink-200",
             !readonly && "hover:scale-110 active:scale-95 cursor-pointer",
             readonly && "cursor-default",
           )}
@@ -138,7 +138,7 @@ export function Reviews() {
   }
 
   return (
-    <section id="reviews" className="scroll-mt-24 bg-ink-50/70 py-20 sm:py-28">
+    <section id="reviews" className="scroll-mt-24 bg-white py-20 sm:py-28">
       <div className="container-x">
         <Reveal>
           <SectionHeader eyebrow={copy.eyebrow} title={copy.title} subtitle={copy.subtitle} />
@@ -178,7 +178,7 @@ export function Reviews() {
             </button>
           ) : status === "success" ? (
             <div className="flex flex-col items-center rounded-[24px] border border-ink-900/8 bg-white px-8 py-8 text-center shadow-soft">
-              <span className="grid h-12 w-12 place-items-center rounded-full bg-emerald-50 text-emerald-600">
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-accent-50 text-accent-600">
                 <Check width={24} height={24} />
               </span>
               <p className="mt-4 text-[15px] font-semibold text-ink-950">{copy.success}</p>

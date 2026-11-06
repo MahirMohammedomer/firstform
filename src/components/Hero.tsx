@@ -116,12 +116,12 @@ export function Hero() {
             <div className="mx-auto w-full max-w-[620px] rounded-2xl bg-white shadow-[0_40px_90px_-30px_rgba(23,50,140,0.55),0_8px_24px_-12px_rgba(23,50,140,0.35)] ring-1 ring-black/5">
               <div className="flex h-11 items-center gap-4 rounded-t-2xl border-b border-ink-100 bg-ink-50/60 px-4">
                 <div className="flex gap-1.5">
-                  <i className="h-2.5 w-2.5 rounded-full bg-[#f4a39d]" />
-                  <i className="h-2.5 w-2.5 rounded-full bg-[#f1cf75]" />
-                  <i className="h-2.5 w-2.5 rounded-full bg-[#8bc7a0]" />
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#dbe4f5]" />
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#bfd3f8]" />
+                  <i className="h-2.5 w-2.5 rounded-full bg-[#3b82f6]" />
                 </div>
                 <div className="mx-auto flex max-w-[260px] flex-1 items-center justify-center gap-1.5 rounded-md border border-ink-100 bg-white px-3 py-1 text-[11px] text-ink-400">
-                  <span className="text-[9px] text-emerald-600">●</span> yourbusiness.com
+                  <span className="text-[9px] text-accent-600">●</span> yourbusiness.com
                 </div>
                 <span className="text-[11px] tracking-[0.2em] text-ink-300">•••</span>
               </div>
@@ -132,8 +132,8 @@ export function Hero() {
                     <p className="text-[15px] font-bold tracking-tight text-ink-950">Your business dashboard</p>
                     <p className="mt-0.5 text-[11px] text-ink-400">Addis Ababa · Open now</p>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-600">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Live
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-600">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent-500" /> Live
                   </span>
                 </div>
 
@@ -142,7 +142,7 @@ export function Hero() {
                     <div key={s.label} className="rounded-xl border border-ink-100 bg-ink-50/50 p-3">
                       <p className="text-lg font-bold tracking-tight text-ink-950">{s.value}</p>
                       <p className="mt-0.5 truncate text-[10px] font-medium text-ink-400">{s.label}</p>
-                      <p className="mt-1 text-[10px] font-bold text-emerald-500">▲ +12%</p>
+                      <p className="mt-1 text-[10px] font-bold text-accent-600">▲ +12%</p>
                     </div>
                   ))}
                 </div>
@@ -168,7 +168,7 @@ export function Hero() {
 
             {/* Floating mini card */}
             <div className="absolute -bottom-6 -left-2 hidden items-center gap-3 rounded-2xl border border-ink-100 bg-white/95 p-3.5 pr-5 shadow-[0_24px_50px_-20px_rgba(23,50,140,0.45)] backdrop-blur sm:flex lg:-left-10">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-100 text-emerald-600"><Check width={18} height={18} /></span>
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent-100 text-accent-600"><Check width={18} height={18} /></span>
               <span>
                 <b className="block text-[13px] font-bold text-ink-950">Prototype ready</b>
                 <small className="block text-[11px] text-ink-400">Delivered in 3 days</small>

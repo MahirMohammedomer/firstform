@@ -63,7 +63,7 @@ export function Compare() {
                     <div className="space-y-2.5">
                       {/* Firstform always first and highlighted */}
                       <div className="flex items-center gap-3 rounded-xl bg-ink-950 px-3.5 py-3">
-                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-emerald-500">
+                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-500">
                           <Check width={12} height={12} className="text-white" />
                         </span>
                         <div className="min-w-0">
@@ -130,7 +130,7 @@ export function Compare() {
                           )}
                         >
                           <span className="inline-flex items-center justify-center gap-1.5">
-                            {vi === 0 && <Check width={14} height={14} className="text-emerald-400" />}
+                            {vi === 0 && <Check width={14} height={14} className="text-accent-500" />}
                             {empty ? <X width={15} height={15} /> : v}
                           </span>
                         </td>

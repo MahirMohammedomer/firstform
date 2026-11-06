@@ -30,13 +30,13 @@ function OfferStrip() {
     <Reveal dir="scale" className="mt-12 sm:mt-14">
       <div className="relative overflow-hidden rounded-[28px] bg-ink-950 p-6 text-white shadow-lift sm:p-8 lg:p-10">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="drift absolute -top-32 -right-20 h-[420px] w-[420px] rounded-full bg-amber-400/25 blur-[120px]" />
+          <div className="drift absolute -top-32 -right-20 h-[420px] w-[420px] rounded-full bg-accent-500/25 blur-[120px]" />
           <div className="drift-slow absolute -bottom-32 -left-20 h-[380px] w-[380px] rounded-full bg-accent-500/25 blur-[120px]" />
         </div>
 
         <div className="relative grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-ink-950">
+            <span className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent-300 to-accent-600 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-ink-950">
               <Sparkle width={12} height={12} /> {t.offer.label} · {t.offer.off}
             </span>
             <h3 className="mt-4 text-[1.75rem] font-semibold leading-tight tracking-tightest sm:text-4xl">{headline}</h3>
@@ -80,7 +80,7 @@ function OfferStrip() {
             <ul className="mt-5 space-y-2.5 border-t border-white/10 pt-5">
               {t.offer.urgency.map((u) => (
                 <li key={u} className="flex items-start gap-2.5 text-[14px] text-white/85">
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-500/20 text-emerald-300">
+                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent-500/20 text-accent-300">
                     <Check width={11} height={11} />
                   </span>
                   {u}
@@ -117,7 +117,7 @@ export function Pricing() {
   const h = offer?.holiday;
 
   return (
-    <section id="pricing" className="relative scroll-mt-24 overflow-hidden bg-ink-50/70 py-20 sm:py-28">
+    <section id="pricing" className="relative scroll-mt-24 overflow-hidden bg-white py-20 sm:py-28">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ink-900/10 to-transparent" aria-hidden />
       <div className="container-x">
         <Reveal>
@@ -154,7 +154,7 @@ export function Pricing() {
                       </span>
                     )}
                     {offer && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-ink-950 shadow-lg shadow-amber-400/30">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-accent-300 to-accent-600 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-ink-950 shadow-lg shadow-accent-500/30">
                         {t.offer.off}
                       </span>
                     )}
@@ -178,12 +178,12 @@ export function Pricing() {
                       {!custom && <span className="w-full text-[13px] opacity-50 sm:w-auto">· {t.pricing.perProject}</span>}
                     </div>
                     {saved > 0 && (
-                      <span className={cn("mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold", popular ? "bg-emerald-400/15 text-emerald-300" : "bg-emerald-50 text-emerald-700")}>
+                      <span className={cn("mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold", popular ? "bg-accent-500/15 text-accent-300" : "bg-accent-50 text-accent-700")}>
                         <Sparkle width={11} height={11} /> {t.offer.save} {fmtETB(saved)} {plan.currency}
                       </span>
                     )}
                     {custom && offer && (
-                      <span className={cn("mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold", "bg-emerald-50 text-emerald-700")}>
+                      <span className={cn("mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold", "bg-accent-50 text-accent-700")}>
                         <Sparkle width={11} height={11} /> {t.offer.off}
                       </span>
                     )}
@@ -218,7 +218,7 @@ export function Pricing() {
                   <ul className="mt-8 space-y-3 border-t pt-7" style={{ borderColor: popular ? "rgba(255,255,255,0.1)" : "rgba(10,10,11,0.08)" }}>
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-3 text-[15px]">
-                        <span className={cn("mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full", popular ? "bg-white/10 text-white" : "bg-emerald-50 text-emerald-600")}>
+                        <span className={cn("mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full", popular ? "bg-white/10 text-white" : "bg-accent-50 text-accent-600")}>
                           <Check width={12} height={12} />
                         </span>
                         <span className={popular ? "text-white/85" : "text-ink-700"}>{f}</span>
@@ -227,14 +227,14 @@ export function Pricing() {
                   </ul>
 
                   {bonuses.length > 0 && (
-                    <div className={cn("mt-6 rounded-2xl p-4 ring-1", popular ? "bg-amber-400/10 ring-amber-300/20" : "bg-amber-50 ring-amber-200/60")}>
-                      <p className={cn("flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em]", popular ? "text-amber-300" : "text-amber-700")}>
+                    <div className={cn("mt-6 rounded-2xl p-4 ring-1", popular ? "bg-accent-500/10 ring-accent-300/20" : "bg-accent-50 ring-accent-200/60")}>
+                      <p className={cn("flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em]", popular ? "text-accent-300" : "text-accent-700")}>
                         <Gift width={13} height={13} /> {t.offer.bonusLabel}
                       </p>
                       <ul className="mt-2.5 space-y-2">
                         {bonuses.map((b) => (
                           <li key={b} className={cn("flex items-start gap-2.5 text-[14px] leading-snug", popular ? "text-white/85" : "text-ink-700")}>
-                            <span className={cn("mt-0.5 grid h-4.5 w-4.5 shrink-0 place-items-center rounded-full", popular ? "bg-amber-300 text-ink-950" : "bg-amber-400 text-white")}>
+                            <span className={cn("mt-0.5 grid h-4.5 w-4.5 shrink-0 place-items-center rounded-full", popular ? "bg-accent-300 text-ink-950" : "bg-accent-500 text-white")}>
                               <Check width={10} height={10} />
                             </span>
                             {b}

@@ -18,7 +18,7 @@ export function OfferBar() {
       className="group mb-2 flex items-center justify-center gap-x-3 gap-y-1 rounded-full bg-ink-950 px-4 py-2 text-[12.5px] font-medium text-white shadow-lift ring-1 ring-white/10 transition-colors hover:bg-ink-800 sm:text-[13px]"
       aria-label={`${headline} — ${t.offer.offAll}. ${t.offer.claim}`}
     >
-      <span className="inline-flex shrink-0 items-center rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-ink-950">
+      <span className="inline-flex shrink-0 items-center rounded-full bg-gradient-to-r from-accent-300 to-accent-600 px-2 py-0.5 text-[11px] font-bold tracking-wide text-ink-950">
         {t.offer.off}
       </span>
       <span className="min-w-0 truncate">
