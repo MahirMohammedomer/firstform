@@ -930,15 +930,40 @@ html[data-lang="am"] .latin {
 
 .hero-visual-halo {
   position: absolute;
-  width: 78%;
-  height: 78%;
-  left: 11%;
-  top: 6%;
+  width: 82%;
+  height: 82%;
+  left: 9%;
+  top: 4%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.6), rgba(147, 197, 253, 0.34) 42%, transparent 72%);
-  filter: blur(38px);
+  background:
+    radial-gradient(ellipse, rgba(255, 255, 255, 0.72), rgba(191, 219, 254, 0.42) 40%, transparent 72%);
+  filter: blur(42px);
   z-index: -1;
   animation: hero-breathe 12s ease-in-out infinite;
+}
+
+/*
+   The cool light the screen throws onto the floor beneath the device. It
+   sits behind the product so the laptop looks lit from within.
+*/
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2%;
+  width: 74%;
+  height: 16rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      rgba(147, 197, 253, 0.5),
+      rgba(96, 165, 250, 0.22) 44%,
+      transparent 74%
+    );
+  filter: blur(30px);
+  z-index: -1;
 }
 
 /* Laptop / browser mockup — the visual anchor. */
@@ -947,63 +972,115 @@ html[data-lang="am"] .latin {
   width: 100%;
   max-width: 640px;
   overflow: visible;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 17px;
-  background: #fff;
+  /*
+    A cool aluminium shell rather than a flat white card. The light edge at
+    the top and the deep blue at the base give the lid real thickness.
+  */
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  background: linear-gradient(
+    168deg,
+    #eef5ff 0%,
+    #dce8f7 16%,
+    #c2d6ed 44%,
+    #a6c0e0 76%,
+    #89a3c9 100%
+  );
   box-shadow:
-    0 40px 90px -30px rgba(9, 48, 105, 0.62),
-    0 6px 22px rgba(9, 48, 105, 0.22),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  transform: rotateY(-6deg) rotateX(2deg);
+    0 52px 100px -30px rgba(9, 48, 105, 0.72),
+    0 14px 34px -10px rgba(9, 48, 105, 0.34),
+    0 0 0 1px rgba(255, 255, 255, 0.85) inset,
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -14px 26px -18px rgba(20, 48, 92, 0.5) inset;
+  transform: rotateY(-9deg) rotateX(3deg) translateZ(0);
   transform-origin: center bottom;
+  transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.7s;
   z-index: 1;
 }
 
-.hero-visual:hover .hero-browser {
-  transform: rotateY(-2deg) rotateX(0) translateY(-4px);
+/*
+   The lit screen. It sits inside the aluminium shell with a small inset so
+   the bezel reads as a real frame, and it throws a cool blue glow down onto
+   the base.
+*/
+.hero-browser::before {
+  content: "";
+  position: absolute;
+  inset: 8px 8px 10px;
+  border-radius: 11px;
+  background: #fff;
   box-shadow:
-    0 52px 110px -30px rgba(9, 48, 105, 0.7),
-    0 6px 22px rgba(9, 48, 105, 0.26);
+    0 0 0 1px rgba(15, 45, 92, 0.14),
+    0 6px 18px -6px rgba(9, 48, 105, 0.45),
+    0 0 40px -6px rgba(96, 165, 250, 0.5);
+  transform: translateZ(1px);
+}
+
+.hero-visual:hover .hero-browser {
+  transform: rotateY(-3deg) rotateX(0) translateY(-6px) translateZ(0);
+  box-shadow:
+    0 66px 120px -30px rgba(9, 48, 105, 0.78),
+    0 18px 40px -10px rgba(9, 48, 105, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset,
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
 }
 
 /* Laptop lid/foot under the browser window. */
 .hero-browser-base {
   position: absolute;
   left: 50%;
-  bottom: -13px;
-  width: 116%;
-  height: 13px;
-  transform: translateX(-50%);
-  border-radius: 0 0 9px 9px;
-  background: linear-gradient(to bottom, #d9dbe4, #9fa3b1);
-  box-shadow: 0 14px 26px -12px rgba(3, 6, 20, 0.8);
+  bottom: -14px;
+  width: 118%;
+  height: 15px;
+  transform: translateX(-50%) rotateX(-68deg);
+  transform-origin: center top;
+  border-radius: 0 0 10px 10px;
+  /* The same cool aluminium as the shell, catching a bright top edge. */
+  background: linear-gradient(
+    to bottom,
+    #e9f0fa 0%,
+    #c3d3e8 26%,
+    #9db4d4 62%,
+    #7189ad 100%
+  );
+  box-shadow:
+    0 18px 30px -12px rgba(3, 6, 20, 0.86),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
+/* The hinge notch where the foot meets the lid. */
 .hero-browser-base span {
   position: absolute;
   left: 50%;
-  top: 0;
-  width: 12%;
-  height: 4px;
+  top: -1px;
+  width: 13%;
+  height: 5px;
   transform: translateX(-50%);
   border-radius: 0 0 6px 6px;
-  background: rgba(120, 126, 140, 0.55);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(96, 120, 158, 0.7));
 }
 
 .hero-browser-top {
+  position: relative;
+  z-index: 2;
   height: 42px;
   display: flex;
   align-items: center;
   gap: 15px;
   padding: 0 14px;
-  border-bottom: 1px solid #ededf0;
-  background: #fbfbfc;
-  border-radius: 16px 16px 0 0;
+  margin: 8px 8px 0;
+  border-bottom: 1px solid #e4e9f2;
+  border-radius: 11px 11px 0 0;
+  /* A cool brushed-metal chrome with a soft top sheen. */
+  background: linear-gradient(180deg, #fdfdff 0%, #eef3fa 62%, #e2eaf5 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(120, 150, 195, 0.18);
 }
 
 .hero-browser-dots { display: flex; gap: 5px; flex-shrink: 0; }
-.hero-browser-dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: #d8d8de; }
+.hero-browser-dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: #cfd6e2; box-shadow: inset 0 -1px 1px rgba(9, 48, 105, 0.22); }
 .hero-browser-dots i:first-child { background: #f4a39d; }
 .hero-browser-dots i:nth-child(2) { background: #f1cf75; }
 .hero-browser-dots i:nth-child(3) { background: #8bc7a0; }
@@ -1017,17 +1094,49 @@ html[data-lang="am"] .latin {
   max-width: 290px;
   margin: auto;
   padding: 6px 10px;
-  border: 1px solid #eeeef1;
+  border: 1px solid #dde5f0;
   border-radius: 7px;
-  background: #fff;
-  color: #858590;
+  background: linear-gradient(180deg, #ffffff, #f6f9fd);
+  box-shadow: inset 0 1px 2px rgba(9, 48, 105, 0.07);
+  color: #7c879b;
   font-size: 10px;
 }
 
 .hero-lock { color: #4d9a70; font-size: 13px; }
 .hero-browser-menu { color: #777781; letter-spacing: 2px; font-size: 11px; }
 
-.hero-site-preview { padding: clamp(16px, 2.1vw, 27px); color: #111115; }
+.hero-site-preview {
+  position: relative;
+  z-index: 2;
+  margin: 0 8px 10px;
+  border-radius: 0 0 11px 11px;
+  overflow: hidden;
+  padding: clamp(16px, 2.1vw, 27px);
+  color: #111115;
+  background: #fff;
+}
+
+/*
+   A glass sheen across the screen. It reads as a real display catching the
+   light from above rather than a flat image. Kept faint so the page copy
+   underneath stays legible.
+*/
+.hero-site-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      112deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.16) 39%,
+      rgba(191, 219, 254, 0.09) 46%,
+      rgba(255, 255, 255, 0) 55%
+    ),
+    radial-gradient(ellipse 60% 40% at 78% 8%, rgba(147, 197, 253, 0.12), transparent 70%);
+  mix-blend-mode: screen;
+}
 
 .hero-site-nav {
   display: flex;
@@ -1090,8 +1199,8 @@ html[data-lang="am"] .latin {
 .hero-floating-card {
   position: absolute;
   z-index: 4;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 14px;
   /*
     Vertical so the gradient lands where the content needs it: the header
     sits on the white sheen, the body carries the blue, and the footer
@@ -1108,9 +1217,10 @@ html[data-lang="am"] .latin {
       rgba(21, 61, 175, 0.98) 100%
     );
   box-shadow:
-    0 26px 62px -22px rgba(9, 48, 105, 0.8),
-    0 2px 8px rgba(9, 48, 105, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 34px 72px -20px rgba(4, 26, 62, 0.82),
+    0 10px 24px -12px rgba(4, 26, 62, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
@@ -1157,11 +1267,18 @@ html[data-lang="am"] .latin {
 
 .hero-phone {
   position: relative;
-  border: 3px solid #0b2a54;
+  /* A titanium-blue chassis with a bright edge highlight, so the phone reads
+     as a machined object rather than a flat rounded rectangle. */
+  border: 3px solid transparent;
   border-radius: 18px;
-  background: #0b2a54;
+  background:
+    linear-gradient(158deg, #dbe8f8 0%, #93b3dc 42%, #4d74ac 78%, #2c4a7c 100%) border-box;
   padding: 4px;
-  box-shadow: 0 18px 40px -14px rgba(9, 48, 105, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 26px 52px -16px rgba(4, 26, 62, 0.82),
+    0 8px 18px -8px rgba(4, 26, 62, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 1px 0 rgba(255, 255, 255, 0.85) inset;
 }
 
 .hero-phone-notch {
@@ -1174,15 +1291,33 @@ html[data-lang="am"] .latin {
   transform: translateX(-50%);
   border-radius: 0 0 7px 7px;
   background: #0b2a54;
+  box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.18);
 }
 
 .hero-phone-screen {
+  position: relative;
   overflow: hidden;
   min-height: 176px;
   border-radius: 12px;
   background: linear-gradient(170deg, #ffffff 0%, #eff6ff 58%, #dbeafe 100%);
   padding: 15px 6px 8px;
   color: #0b2a54;
+}
+
+/* Glass sheen across the phone display. */
+.hero-phone-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0.26) 46%,
+    rgba(191, 219, 254, 0.12) 52%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  mix-blend-mode: screen;
 }
 
 .hero-phone-brand { display: block; font-size: 8px; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 8px; }
@@ -1266,7 +1401,7 @@ html[data-lang="am"] .latin {
   .hero-actions { margin-top: 1.6rem; }
   .hero-trustline { margin-top: 1.25rem; }
   .hero-visual { min-height: 360px; max-width: 640px; padding-top: 1rem; }
-  .hero-browser { transform: rotateY(-3deg); }
+  .hero-browser { transform: rotateY(-6deg) rotateX(2deg); }
   .hero-work-card { width: clamp(180px, 36vw, 245px); left: 0; bottom: 8%; }
   .hero-mobile-card { width: 108px; right: 0; bottom: 11%; }
 
@@ -1289,12 +1424,14 @@ html[data-lang="am"] .latin {
   .hero-trustline { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; gap: 9px 15px; font-size: 11px; }
   .hero-offer { font-size: 12px; }
   .hero-visual { min-height: 290px; padding-top: 0.75rem; }
-  .hero-browser { border-radius: 12px; }
-  .hero-browser-top { height: 30px; padding: 0 9px; gap: 8px; border-radius: 11px 11px 0 0; }
+  .hero-browser { border-radius: 13px; transform: rotateY(-5deg) rotateX(2deg); }
+  .hero-browser::before { inset: 5px 5px 7px; border-radius: 8px; }
+  .hero-browser-top { height: 30px; padding: 0 9px; gap: 8px; margin: 5px 5px 0; border-radius: 8px 8px 0 0; }
   .hero-browser-dots { gap: 3px; }
   .hero-browser-dots i { width: 5px; height: 5px; }
   .hero-address { font-size: 8px; padding: 4px 6px; }
-  .hero-site-preview { padding: 12px; }
+  .hero-site-preview { padding: 12px; margin: 0 5px 7px; border-radius: 0 0 8px 8px; }
+  .hero-visual::before { height: 10rem; width: 84%; }
   .hero-site-nav { font-size: 7px; }
   .hero-site-logo { font-size: 13px; }
   .hero-site-nav b { padding: 7px; font-size: 7px; }
