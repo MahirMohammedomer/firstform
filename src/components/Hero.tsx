@@ -1,66 +1,49 @@
-import { useState } from "react";
 import { useLang } from "../context/LanguageContext";
-import { PROJECTS } from "../i18n";
 import { Check, Sparkle } from "./Icons";
 import { WhatsAppButton, TelegramButton } from "./ui";
 import { useOffer } from "../context/OfferContext";
 import { CountdownInline } from "./Countdown";
-import { cn } from "../utils/cn";
 
-const shot = (url: string, width = 1600) =>
-  `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=${width}&vpw=1440&vph=900`;
-
-function MainBrowser({ url, name }: { url: string; name: string }) {
-  const [loaded, setLoaded] = useState(false);
-  return (
-    <div className="hero-main-preview">
-      <div className="hero-browserbar">
-        <div className="flex gap-1.5">
-          <span className="hero-dot bg-[#ff5f57]" />
-          <span className="hero-dot bg-[#febc2e]" />
-          <span className="hero-dot bg-[#28c840]" />
-        </div>
-        <div className="hero-url">
-          <span className="hero-lock">⌁</span>
-          {name.toLowerCase().replace(/ /g, "")}.com
-        </div>
-        <span className="hero-live">
-          <i /> LIVE
-        </span>
-      </div>
-      <div className="relative aspect-[16/9.5] overflow-hidden bg-ink-100">
-        {!loaded && (
-          <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-ink-100 via-white to-ink-200" />
-        )}
-        <img
-          src={shot(url)}
-          alt={`${name} website designed and built by Firstform`}
-          loading="eager"
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onLoad={() => setLoaded(true)}
-          className={cn(
-            "absolute inset-0 h-full w-full object-cover object-top transition-all duration-1000",
-            loaded ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"
-          )}
-        />
-      </div>
-    </div>
-  );
-}
+const WORK_IMAGES = [
+  {
+    src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+    alt: "Modern business dashboard",
+    label: "Business sites",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80",
+    alt: "Mobile website design",
+    label: "Mobile-first",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80",
+    alt: "E-commerce website",
+    label: "E-commerce",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80",
+    alt: "Clean website design",
+    label: "Clean design",
+  },
+];
 
 export function Hero() {
   const { t, lang } = useLang();
   const { offer, remaining } = useOffer();
 
   return (
-    <section id="top" className="relative overflow-hidden pb-8 pt-32 sm:pt-36 lg:pt-40">
-      {/* Ambient background */}
+    <section id="top" className="relative overflow-hidden pb-12 pt-32 sm:pt-36 lg:pt-40">
+      {/* Ambient background + strong perspective lines */}
       <div className="hero-ambient" aria-hidden>
         <div className="hero-grid" />
         <div className="hero-glow hero-glow-one" />
         <div className="hero-glow hero-glow-two" />
-        <div className="hero-platform-glow" />
+
+        {/* Strong growing perspective lines (Wope-style) */}
+        <div className="hero-perspective">
+          <div className="hero-perspective-grid" />
+          <div className="hero-perspective-fade" />
+        </div>
       </div>
 
       <div className="container-x relative">
@@ -148,23 +131,33 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Floating product preview + platform */}
-        <div className="hero-preview-wrap rise" style={{ ["--d" as string]: "520ms" }}>
-          <div className="hero-platform" aria-hidden>
-            <div className="hero-platform-grid" />
-            <div className="hero-platform-fade" />
+        {/* Image collection sitting on the perspective lines */}
+        <div className="hero-gallery rise" style={{ ["--d" as string]: "520ms" }}>
+          <div className="hero-gallery-track">
+            {WORK_IMAGES.map((img, i) => (
+              <div
+                key={i}
+                className="hero-gallery-card"
+                style={{ "--i": i } as React.CSSProperties}
+              >
+                <div className="hero-gallery-img-wrap">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </div>
+                <div className="hero-gallery-label">{img.label}</div>
+              </div>
+            ))}
           </div>
 
-          <div className="hero-preview-card">
-            <MainBrowser url={PROJECTS[0].url} name={PROJECTS[0].name} />
-            <div className="hero-preview-caption">
-              <span>
-                <b>{PROJECTS[0].name}</b> · live website by Firstform
-              </span>
-              <span className="hero-preview-badge">
-                <i /> Live
-              </span>
-            </div>
+          <div className="hero-gallery-caption">
+            <span className="hero-pulse-dot" />
+            {lang === "am"
+              ? "የምንገነባቸው ድረ-ገጾች"
+              : "Websites we design & build"}
           </div>
         </div>
       </div>

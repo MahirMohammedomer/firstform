@@ -341,7 +341,8 @@ img, video, canvas, svg {
 }
 
 /* =========================================================
-   Firstform hero — Wope-inspired composition (light theme)
+   Firstform hero — Wope-inspired with strong perspective lines
+   + image collection
    ========================================================= */
 .hero-ambient {
   position: absolute;
@@ -353,12 +354,12 @@ img, video, canvas, svg {
 .hero-grid {
   position: absolute;
   inset: 0;
-  opacity: 0.5;
+  opacity: 0.4;
   background-image:
-    linear-gradient(to right, rgba(10, 10, 11, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(10, 10, 11, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(10, 10, 11, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 11, 0.035) 1px, transparent 1px);
   background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 85%);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 40%, transparent 80%);
 }
 .hero-glow {
   position: absolute;
@@ -370,16 +371,16 @@ img, video, canvas, svg {
   width: 560px;
   height: 560px;
   left: 50%;
-  top: 80px;
+  top: 60px;
   transform: translateX(-50%);
-  background: rgba(59, 108, 246, 0.09);
+  background: rgba(59, 108, 246, 0.08);
 }
 .hero-glow-two {
-  width: 420px;
-  height: 420px;
-  right: 8%;
-  top: 220px;
-  background: rgba(245, 180, 75, 0.07);
+  width: 380px;
+  height: 380px;
+  right: 10%;
+  top: 200px;
+  background: rgba(245, 180, 75, 0.06);
   animation-delay: -6s;
 }
 @keyframes hero-breathe {
@@ -387,16 +388,38 @@ img, video, canvas, svg {
   50% { transform: translate3d(12px, -14px, 0) scale(1.06); }
 }
 
-/* Platform / floor glow under the mockup */
-.hero-platform-glow {
+/* Strong growing perspective grid (the "lines") */
+.hero-perspective {
   position: absolute;
   left: 50%;
-  bottom: 0;
-  width: min(920px, 90%);
-  height: 280px;
+  bottom: -40px;
+  width: 160%;
+  max-width: 1400px;
+  height: 420px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse 70% 60% at 50% 80%, rgba(59, 108, 246, 0.14), transparent 70%);
-  filter: blur(8px);
+  pointer-events: none;
+}
+.hero-perspective-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 11, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 11, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(1100px) rotateX(62deg);
+  transform-origin: center bottom;
+  mask-image: linear-gradient(to top, #000 5%, rgba(0,0,0,0.6) 45%, transparent 90%);
+  opacity: 0.85;
+}
+.hero-perspective-fade {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  width: 70%;
+  height: 160px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 80% 70% at 50% 80%, rgba(59, 108, 246, 0.16), transparent 70%);
+  filter: blur(24px);
 }
 
 .hero-offer {
@@ -490,120 +513,70 @@ img, video, canvas, svg {
   color: #2b9a61;
 }
 
-/* Preview area */
-.hero-preview-wrap {
+/* Image collection gallery */
+.hero-gallery {
   position: relative;
-  margin: 56px auto 0;
-  max-width: 980px;
-  padding-bottom: 40px;
+  margin: 64px auto 0;
+  max-width: 1100px;
+  padding-bottom: 20px;
 }
-
-.hero-platform {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 120%;
-  height: 220px;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 0;
-}
-.hero-platform-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(10, 10, 11, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(10, 10, 11, 0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
-  transform: perspective(900px) rotateX(58deg);
-  transform-origin: center bottom;
-  mask-image: linear-gradient(to top, #000 10%, transparent 85%);
-  opacity: 0.7;
-}
-.hero-platform-fade {
-  position: absolute;
-  left: 50%;
-  bottom: 10px;
-  width: 70%;
-  height: 90px;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(59, 108, 246, 0.18), transparent 70%);
-  filter: blur(20px);
-}
-
-.hero-preview-card {
+.hero-gallery-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   position: relative;
   z-index: 2;
-  border-radius: 18px;
+}
+.hero-gallery-card {
+  background: #fff;
+  border: 1px solid rgba(10, 10, 11, 0.08);
+  border-radius: 16px;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid rgba(10, 10, 11, 0.1);
   box-shadow:
-    0 4px 6px rgba(10, 10, 11, 0.03),
-    0 24px 60px -20px rgba(10, 10, 11, 0.22),
-    0 60px 100px -40px rgba(10, 10, 11, 0.18);
-  transform: translateY(0);
-  transition: transform 0.7s var(--ease-out-expo), box-shadow 0.7s var(--ease-out-expo);
+    0 4px 12px rgba(10, 10, 11, 0.04),
+    0 20px 40px -16px rgba(10, 10, 11, 0.12);
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
 }
-.hero-preview-card:hover {
-  transform: translateY(-6px);
+.hero-gallery-card:hover {
+  transform: translateY(-8px);
   box-shadow:
-    0 8px 12px rgba(10, 10, 11, 0.04),
-    0 32px 70px -20px rgba(10, 10, 11, 0.26),
-    0 70px 110px -40px rgba(10, 10, 11, 0.2);
+    0 8px 20px rgba(10, 10, 11, 0.06),
+    0 28px 50px -16px rgba(10, 10, 11, 0.18);
 }
-
-.hero-main-preview {
-  background: #fff;
+.hero-gallery-img-wrap {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #f0f0f3;
 }
-.hero-browserbar {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 14px;
-  border-bottom: 1px solid #ededf0;
-  background: rgba(255, 255, 255, 0.97);
+.hero-gallery-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-out-expo);
 }
-.hero-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.hero-gallery-card:hover .hero-gallery-img-wrap img {
+  transform: scale(1.05);
 }
-.hero-url {
-  flex: 1;
-  max-width: 320px;
-  margin: auto;
-  height: 24px;
+.hero-gallery-label {
+  padding: 12px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b4b55;
+  letter-spacing: 0.02em;
+}
+.hero-gallery-caption {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  border-radius: 8px;
-  background: #f6f6f8;
-  color: #8a8a95;
-  font-size: 11px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  gap: 8px;
+  margin-top: 22px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b6b76;
 }
-.hero-lock {
-  color: #2b9a61;
-  font-weight: 800;
-}
-.hero-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #2b9a61;
-}
-.hero-live i,
-.hero-preview-badge i {
-  width: 6px;
-  height: 6px;
+.hero-pulse-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #35b875;
   box-shadow: 0 0 0 4px rgba(53, 184, 117, 0.15);
@@ -613,30 +586,17 @@ img, video, canvas, svg {
   50% { box-shadow: 0 0 0 8px rgba(53, 184, 117, 0); }
 }
 
-.hero-preview-caption {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  font-size: 12px;
-  color: #777781;
-  background: #fff;
-  border-top: 1px solid #f0f0f3;
-}
-.hero-preview-caption b {
-  color: #0a0a0b;
-}
-.hero-preview-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #2b9a61;
-}
-
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .hero-gallery-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .hero-perspective {
+    height: 320px;
+  }
+}
+@media (max-width: 640px) {
   .hero-title {
     font-size: clamp(2.9rem, 13vw, 4.2rem);
   }
@@ -655,32 +615,25 @@ img, video, canvas, svg {
     gap: 12px;
     font-size: 12px;
   }
-  .hero-preview-wrap {
-    margin-top: 40px;
-    padding-bottom: 24px;
+  .hero-gallery {
+    margin-top: 44px;
   }
-  .hero-browserbar {
-    height: 34px;
-    padding: 0 10px;
+  .hero-gallery-track {
+    gap: 10px;
   }
-  .hero-dot {
-    width: 6px;
-    height: 6px;
-  }
-  .hero-url {
-    height: 20px;
-    font-size: 10px;
-  }
-  .hero-preview-caption {
-    font-size: 11px;
+  .hero-gallery-label {
     padding: 10px 12px;
+    font-size: 11px;
+  }
+  .hero-perspective {
+    height: 260px;
+    bottom: -20px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-glow,
-  .hero-live i,
-  .hero-preview-badge i {
+  .hero-pulse-dot {
     animation: none !important;
   }
 }
