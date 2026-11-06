@@ -435,7 +435,8 @@ html[data-lang="am"] .latin {
   position: relative;
   padding-top: 7.5rem;
   padding-bottom: 9rem;
-  background: #9ccbf1;
+  /* A plain light-blue background. */
+  background: #a8d0f4;
   color: #fff;
 }
 
@@ -448,89 +449,6 @@ html[data-lang="am"] .latin {
   z-index: -2;
   overflow: hidden;
   pointer-events: none;
-}
-
-/* The generated sky photograph: clouds, star field and overhead glow. */
-.hero-sky-photo {
-  position: absolute;
-  inset: 0;
-  background-image: url("/hero-sky.jpg");
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  opacity: 1;
-  transform: scale(1.04);
-  animation: hero-sky-drift 26s ease-in-out infinite alternate;
-}
-
-/*
-   Blends the photograph into the sky below it. The gradient stays light —
-   it only adds a whisper of blue at the very bottom so the photo's edge
-   does not show as a seam, and so the perspective grid has something to
-   read against.
-*/
-.hero-sky-blend {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(147, 197, 253, 0) 46%,
-    rgba(147, 197, 253, 0.08) 66%,
-    rgba(147, 197, 253, 0.18) 86%,
-    rgba(147, 197, 253, 0.3) 100%
-  );
-}
-
-@keyframes hero-sky-drift {
-  from { transform: scale(1.04) translate3d(0, 0, 0); }
-  to   { transform: scale(1.09) translate3d(0, -1.5%, 0); }
-}
-
-/* Extra star veil so the sky still sparkles over the busiest cloud areas. */
-.hero-star-veil {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(1.4px 1.4px at 12% 14%, rgba(255, 255, 255, 0.85), transparent 60%),
-    radial-gradient(1.2px 1.2px at 28% 8%, rgba(226, 232, 255, 0.7), transparent 60%),
-    radial-gradient(1.6px 1.6px at 47% 19%, rgba(255, 255, 255, 0.8), transparent 60%),
-    radial-gradient(1.1px 1.1px at 63% 6%, rgba(232, 226, 255, 0.75), transparent 60%),
-    radial-gradient(1.5px 1.5px at 78% 17%, rgba(255, 255, 255, 0.7), transparent 60%),
-    radial-gradient(1.2px 1.2px at 91% 9%, rgba(255, 255, 255, 0.8), transparent 60%),
-    radial-gradient(1.3px 1.3px at 6% 34%, rgba(255, 255, 255, 0.55), transparent 60%),
-    radial-gradient(1.1px 1.1px at 84% 38%, rgba(255, 255, 255, 0.5), transparent 60%),
-    radial-gradient(1.4px 1.4px at 35% 3%, rgba(255, 255, 255, 0.6), transparent 60%);
-  opacity: 0.7;
-  animation: hero-twinkle 6s ease-in-out infinite alternate;
-}
-
-/*
-   A soft scrim over the upper half. The sky stays light blue, but the copy
-   always has enough contrast against the clouds behind it — without the
-   bright white headline, which reads on its own outline.
-*/
-.hero-sky-scrim {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse 78% 62% at 50% 20%,
-      rgba(37, 99, 235, 0.2),
-      rgba(37, 99, 235, 0.11) 42%,
-      rgba(37, 99, 235, 0.04) 66%,
-      transparent 84%
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(29, 78, 216, 0.16) 0%,
-      rgba(29, 78, 216, 0.09) 36%,
-      rgba(29, 78, 216, 0) 68%
-    );
-}
-
-@keyframes hero-twinkle {
-  from { opacity: 0.45; }
-  to   { opacity: 0.85; }
 }
 
 /* Overhead white bloom spilling into the brand blue (Bolt). */
@@ -1355,11 +1273,8 @@ html[data-lang="am"] .latin {
     transform: none !important;
   }
 
-  /* The sky drift, star twinkle, aurora breathe and status pulse all stop
-     with the universal rule above; pin the hero to a still frame so the
-     light does not keep moving for motion-sensitive visitors. */
-  .hero-sky-photo,
-  .hero-star-veil,
+  /* The aurora breathe and status pulse both stop with the universal rule
+     above; pin the hero to a still frame for motion-sensitive visitors. */
   .hero-aurora,
   .hero-visual-halo,
   .hero-pulse-dot {

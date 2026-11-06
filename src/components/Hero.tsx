@@ -16,13 +16,9 @@ export function Hero() {
 
   return (
     <section id="top" className="hero-sky relative overflow-hidden">
-      {/* Atmosphere: photo sky, star veil, overhead bloom, light beam and floor */}
+      {/* Atmosphere: a soft light-blue wash and the perspective floor */}
       <div className="hero-ambient" aria-hidden>
-        <div className="hero-sky-photo" />
-        <div className="hero-sky-blend" />
-        <div className="hero-star-veil" />
         <div className="hero-aurora" />
-        <div className="hero-sky-scrim" />
         <div className="hero-perspective">
           <div className="hero-perspective-grid" />
           <div className="hero-perspective-fade" />
