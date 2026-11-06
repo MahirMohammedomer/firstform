@@ -19,6 +19,7 @@ export function Hero() {
       {/* Atmosphere: photo sky, star veil, overhead bloom, light beam and floor */}
       <div className="hero-ambient" aria-hidden>
         <div className="hero-sky-photo" />
+        <div className="hero-sky-blend" />
         <div className="hero-star-veil" />
         <div className="hero-aurora" />
         <div className="hero-beam">
