@@ -435,7 +435,7 @@ html[data-lang="am"] .latin {
   position: relative;
   padding-top: 7.5rem;
   padding-bottom: 9rem;
-  background: #74b6ee;
+  background: #9ccbf1;
   color: #fff;
 }
 
@@ -465,19 +465,19 @@ html[data-lang="am"] .latin {
 
 /*
    Blends the photograph into the sky below it. The gradient stays light —
-   it only adds a touch of deeper blue at the very bottom so the photo's
-   edge does not show as a seam, and so the perspective grid has something
-   to read against.
+   it only adds a whisper of blue at the very bottom so the photo's edge
+   does not show as a seam, and so the perspective grid has something to
+   read against.
 */
 .hero-sky-blend {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(96, 165, 250, 0) 44%,
-    rgba(74, 145, 226, 0.16) 64%,
-    rgba(52, 122, 210, 0.38) 84%,
-    rgba(38, 104, 196, 0.58) 100%
+    rgba(147, 197, 253, 0) 46%,
+    rgba(147, 197, 253, 0.08) 66%,
+    rgba(147, 197, 253, 0.18) 86%,
+    rgba(147, 197, 253, 0.3) 100%
   );
 }
 
@@ -504,12 +504,36 @@ html[data-lang="am"] .latin {
   animation: hero-twinkle 6s ease-in-out infinite alternate;
 }
 
+/*
+   A soft scrim over the upper half. The sky stays light blue, but the copy
+   always has enough contrast against the clouds behind it — without the
+   bright white headline, which reads on its own outline.
+*/
+.hero-sky-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 78% 62% at 50% 20%,
+      rgba(37, 99, 235, 0.2),
+      rgba(37, 99, 235, 0.11) 42%,
+      rgba(37, 99, 235, 0.04) 66%,
+      transparent 84%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(29, 78, 216, 0.16) 0%,
+      rgba(29, 78, 216, 0.09) 36%,
+      rgba(29, 78, 216, 0) 68%
+    );
+}
+
 @keyframes hero-twinkle {
   from { opacity: 0.45; }
   to   { opacity: 0.85; }
 }
 
-/* Overhead blue bloom — white light spilling into the brand blue (Bolt). */
+/* Overhead white bloom spilling into the brand blue (Bolt). */
 .hero-aurora {
   position: absolute;
   left: 50%;
@@ -518,9 +542,9 @@ html[data-lang="am"] .latin {
   height: 54rem;
   transform: translateX(-50%);
   background:
-    radial-gradient(ellipse 22% 26% at 50% 32%, rgba(255, 255, 255, 0.5), transparent 70%),
-    radial-gradient(ellipse 34% 36% at 50% 34%, rgba(147, 197, 253, 0.34), transparent 74%),
-    radial-gradient(ellipse 62% 48% at 50% 28%, rgba(59, 130, 246, 0.2), transparent 78%);
+    radial-gradient(ellipse 22% 26% at 50% 32%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse 34% 36% at 50% 34%, rgba(219, 234, 254, 0.34), transparent 74%),
+    radial-gradient(ellipse 62% 48% at 50% 28%, rgba(191, 219, 254, 0.22), transparent 78%);
   filter: blur(60px);
   animation: hero-breathe 12s ease-in-out infinite;
 }
@@ -528,166 +552,6 @@ html[data-lang="am"] .latin {
 @keyframes hero-breathe {
   0%, 100% { opacity: 0.82; transform: translateX(-50%) scale(1); }
   50%      { opacity: 1;    transform: translateX(-50%) scale(1.06); }
-}
-
-/* ----------------------------------------------------------- light beam --- */
-/*
-   A shaft of light entering from the top of the page, mirroring the
-   reference: a narrow white core at the top that flares outward into a
-   cone, spilling blue into the surrounding sky and gathering into a
-   bright white pool that wraps around the product composition.
-*/
-.hero-beam {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/*
-   The cone of light. A trapezoid clip-path turns the shaft into a beam
-   that widens as it descends, with the widest point sitting behind the
-   product so the light appears to wrap around it.
-*/
-.hero-beam-glow {
-  position: absolute;
-  left: 50%;
-  top: -4%;
-  width: 92%;
-  height: 104%;
-  transform: translateX(-50%);
-  clip-path: polygon(49.4% 0%, 50.6% 0%, 88% 74%, 96% 100%, 4% 100%, 12% 74%);
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.62) 0%,
-      rgba(219, 234, 254, 0.36) 22%,
-      rgba(147, 197, 253, 0.3) 48%,
-      rgba(96, 165, 250, 0.26) 70%,
-      rgba(191, 219, 254, 0.42) 88%,
-      rgba(255, 255, 255, 0.72) 100%
-    );
-  /*
-    The blur softens the clip-path edges so the cone reads as light rather
-    than as a shape with corners, and the horizontal mask dissolves the
-    outer edges into the surrounding sky.
-  */
-  filter: blur(46px);
-  opacity: 0.88;
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0, 0, 0, 0.35) 18%,
-    #000 42%,
-    #000 58%,
-    rgba(0, 0, 0, 0.35) 82%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0, 0, 0, 0.35) 18%,
-    #000 42%,
-    #000 58%,
-    rgba(0, 0, 0, 0.35) 82%,
-    transparent 100%
-  );
-  animation: hero-beam-breathe 8s ease-in-out infinite;
-}
-
-/* The bright white core of the shaft. */
-.hero-beam-core {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 5px;
-  height: 86%;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.78) 0%,
-    rgba(255, 255, 255, 0.96) 34%,
-    rgba(255, 255, 255, 0.9) 66%,
-    rgba(255, 255, 255, 0.55) 88%,
-    transparent 100%
-  );
-  filter: blur(1px);
-  box-shadow:
-    0 0 9px 2px rgba(255, 255, 255, 0.8),
-    0 0 26px 8px rgba(147, 197, 253, 0.7),
-    0 0 62px 22px rgba(59, 130, 246, 0.45);
-  animation: hero-beam-flicker 5s ease-in-out infinite;
-}
-
-/*
-   The blue fringe hugging the core. It widens as it descends, matching the
-   cone, so the shaft reads as a single volume of light rather than a line.
-*/
-.hero-beam-edge {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 30%;
-  height: 88%;
-  transform: translateX(-50%);
-  clip-path: polygon(47.8% 0%, 52.2% 0%, 74% 100%, 26% 100%);
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(37, 99, 235, 0.1) 22%,
-    rgba(96, 165, 250, 0.26) 38%,
-    rgba(191, 219, 254, 0.46) 47%,
-    rgba(255, 255, 255, 0.66) 50%,
-    rgba(191, 219, 254, 0.46) 53%,
-    rgba(96, 165, 250, 0.26) 62%,
-    rgba(37, 99, 235, 0.1) 78%,
-    transparent 100%
-  );
-  filter: blur(10px);
-  animation: hero-beam-flicker 5s ease-in-out infinite;
-  animation-delay: -1.4s;
-}
-
-/*
-   The pool of light where the beam lands. It spreads wide and bright behind
-   the product and spills out past both sides, so the composition reads as
-   sitting inside the light rather than in front of it.
-*/
-.hero-beam::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 8%;
-  width: 78rem;
-  height: 30rem;
-  transform: translateX(-50%);
-  background:
-    radial-gradient(
-      ellipse 38% 46% at 50% 62%,
-      rgba(255, 255, 255, 0.88),
-      rgba(219, 234, 254, 0.5) 34%,
-      rgba(147, 197, 253, 0.24) 58%,
-      transparent 78%
-    ),
-    radial-gradient(
-      ellipse 60% 40% at 50% 78%,
-      rgba(255, 255, 255, 0.5),
-      rgba(191, 219, 254, 0.22) 44%,
-      transparent 76%
-    );
-  filter: blur(22px);
-  animation: hero-beam-breathe 8s ease-in-out infinite;
-  animation-delay: -2.5s;
-}
-
-@keyframes hero-beam-breathe {
-  0%, 100% { opacity: 0.72; }
-  50%      { opacity: 1; }
-}
-
-@keyframes hero-beam-flicker {
-  0%, 100% { opacity: 0.9; }
-  50%      { opacity: 1; }
 }
 
 /* Perspective floor grid that fades out toward the horizon (Wope). */
@@ -718,15 +582,15 @@ html[data-lang="am"] .latin {
   filter: drop-shadow(0 0 2px rgba(37, 99, 235, 0.55));
 }
 
-/* Deepen the horizon slightly so the grid reads against the light sky. */
+/* Soften the horizon so the grid dissolves into the light sky. */
 .hero-perspective-fade {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(38, 104, 196, 0) 16%,
-    rgba(38, 104, 196, 0.1) 46%,
-    rgba(30, 88, 175, 0.26) 100%
+    rgba(147, 197, 253, 0) 16%,
+    rgba(147, 197, 253, 0.06) 46%,
+    rgba(147, 197, 253, 0.14) 100%
   );
 }
 
@@ -783,8 +647,10 @@ html[data-lang="am"] .latin {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.94);
-  text-shadow: 0 1px 8px rgba(11, 42, 84, 0.4);
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow:
+    0 1px 6px rgba(11, 42, 84, 0.5),
+    0 2px 18px rgba(11, 42, 84, 0.45);
 }
 
 .hero-kicker-line {
@@ -806,8 +672,9 @@ html[data-lang="am"] .latin {
   text-wrap: balance;
   color: #fff;
   text-shadow:
-    0 2px 10px rgba(11, 42, 84, 0.32),
-    0 12px 46px rgba(11, 42, 84, 0.34);
+    0 2px 10px rgba(11, 42, 84, 0.42),
+    0 10px 34px rgba(11, 42, 84, 0.4),
+    0 18px 60px rgba(11, 42, 84, 0.32);
 }
 
 .hero-title > span {
@@ -817,13 +684,22 @@ html[data-lang="am"] .latin {
 /* The second line is rendered as an outline so the headline reads as two weights. */
 .hero-title-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.86);
-  text-stroke: 1.5px rgba(255, 255, 255, 0.86);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.92);
+  text-stroke: 1.5px rgba(255, 255, 255, 0.92);
   paint-order: stroke fill;
+  /* A soft dark halo behind the stroke keeps the outlined line legible
+     where it crosses a bright cloud. */
+  filter: drop-shadow(0 2px 6px rgba(11, 42, 84, 0.5))
+          drop-shadow(0 8px 26px rgba(11, 42, 84, 0.42));
 }
 
 @supports not ((-webkit-text-stroke: 1px black) or (text-stroke: 1px black)) {
-  .hero-title-outline { color: rgba(255, 255, 255, 0.9); }
+  .hero-title-outline {
+    color: rgba(255, 255, 255, 0.94);
+    text-shadow:
+      0 2px 10px rgba(11, 42, 84, 0.45),
+      0 12px 40px rgba(11, 42, 84, 0.4);
+  }
 }
 
 .hero-subtitle {
@@ -831,8 +707,10 @@ html[data-lang="am"] .latin {
   margin: 1.5rem 0 0;
   font-size: clamp(1rem, 1.3vw, 1.13rem);
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2px 16px rgba(11, 42, 84, 0.45);
+  color: rgba(255, 255, 255, 0.97);
+  text-shadow:
+    0 1px 6px rgba(11, 42, 84, 0.5),
+    0 2px 18px rgba(11, 42, 84, 0.45);
 }
 
 .hero-actions {
@@ -851,10 +729,12 @@ html[data-lang="am"] .latin {
   justify-content: center;
   gap: 1.25rem;
   margin-top: 1.5rem;
-  color: rgba(255, 255, 255, 0.94);
+  color: rgba(255, 255, 255, 0.96);
   font-weight: 500;
   font-size: 13px;
-  text-shadow: 0 1px 8px rgba(11, 42, 84, 0.4);
+  text-shadow:
+    0 1px 6px rgba(11, 42, 84, 0.5),
+    0 2px 16px rgba(11, 42, 84, 0.42);
 }
 
 .hero-trustline > span {
@@ -1405,12 +1285,9 @@ html[data-lang="am"] .latin {
   .hero-work-card { width: clamp(180px, 36vw, 245px); left: 0; bottom: 8%; }
   .hero-mobile-card { width: 108px; right: 0; bottom: 11%; }
 
-  /* Narrow the cone on small screens so the light lands on the product
-     instead of washing out the whole viewport. */
-  .hero-beam-glow { width: 150%; opacity: 0.72; }
-  .hero-beam-core { height: 78%; }
-  .hero-beam-edge { width: 52%; height: 80%; }
-  .hero-beam::after { width: 120%; height: 20rem; bottom: 10%; }
+  /* Narrow the atmospheric bloom on small screens so the light lands on the
+     product instead of washing out the whole viewport. */
+  .hero-visual-halo { width: 96%; left: 2%; }
 }
 
 @media (max-width: 480px) {
@@ -1478,23 +1355,14 @@ html[data-lang="am"] .latin {
     transform: none !important;
   }
 
-  /* The sky drift, star twinkle, aurora breathe, beam flicker and status
-     pulse all stop with the universal rule above; pin the hero to a still
-     frame so the light does not keep moving for motion-sensitive visitors. */
+  /* The sky drift, star twinkle, aurora breathe and status pulse all stop
+     with the universal rule above; pin the hero to a still frame so the
+     light does not keep moving for motion-sensitive visitors. */
   .hero-sky-photo,
   .hero-star-veil,
   .hero-aurora,
   .hero-visual-halo,
-  .hero-pulse-dot,
-  .hero-beam-glow,
-  .hero-beam-core,
-  .hero-beam-edge {
+  .hero-pulse-dot {
     animation: none !important;
   }
-
-  /* Hold the beam at its full, steady brightness rather than the dimmed
-     start frame the breathing keyframe would leave it at. */
-  .hero-beam-glow { opacity: 0.88 !important; }
-  .hero-beam-core { opacity: 1 !important; }
-  .hero-beam-edge { opacity: 1 !important; }
 }

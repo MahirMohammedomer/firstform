@@ -22,11 +22,7 @@ export function Hero() {
         <div className="hero-sky-blend" />
         <div className="hero-star-veil" />
         <div className="hero-aurora" />
-        <div className="hero-beam">
-          <div className="hero-beam-glow" />
-          <div className="hero-beam-core" />
-          <div className="hero-beam-edge" />
-        </div>
+        <div className="hero-sky-scrim" />
         <div className="hero-perspective">
           <div className="hero-perspective-grid" />
           <div className="hero-perspective-fade" />
