@@ -15,57 +15,66 @@ export function Hero() {
   const { offer, remaining } = useOffer();
 
   return (
-    <section id="top" className="hero-combo relative overflow-hidden pb-14 pt-28 sm:pt-32 lg:pt-36">
+    <section id="top" className="hero-sky relative overflow-hidden">
+      {/* Atmosphere: photo sky, star veil, overhead violet bloom and perspective floor */}
       <div className="hero-ambient" aria-hidden>
-        <div className="hero-grid" />
-        <div className="hero-glow hero-glow-one" />
-        <div className="hero-glow hero-glow-two" />
-        <div className="hero-perspective"><div className="hero-perspective-grid" /><div className="hero-perspective-fade" /></div>
+        <div className="hero-sky-photo" />
+        <div className="hero-star-veil" />
+        <div className="hero-aurora" />
+        <div className="hero-perspective">
+          <div className="hero-perspective-grid" />
+          <div className="hero-perspective-fade" />
+        </div>
       </div>
 
       <div className="container-x relative">
         {offer && (
-          <a href="#pricing" className="hero-offer rise mb-7" style={{ ["--d" as string]: "0ms" }}>
+          <a href="#pricing" className="hero-offer rise mb-6" style={{ ["--d" as string]: "0ms" }}>
             <span><Sparkle width={12} height={12} /> {t.offer.off}</span>
             {t.offer.heroBadge(offer.holiday.name[lang])}
             <strong><CountdownInline ms={remaining} /></strong>
           </a>
         )}
 
-        <div className="hero-combo-layout">
-          <div className="hero-copy">
-            <div className="rise hero-kicker hero-kicker-left" style={{ ["--d" as string]: "40ms" }}>
+        {/* ---------------------------------------------------- centered copy */}
+        <div className="hero-stage">
+          <div className="hero-copy rise" style={{ ["--d" as string]: "40ms" }}>
+            <div className="hero-kicker">
               <span className="hero-kicker-line" />
               <span>{t.hero.kicker}</span>
+              <span className="hero-kicker-line hero-kicker-line-right" />
             </div>
 
-            <h1 className="rise hero-title hero-title-left" style={{ ["--d" as string]: "120ms" }}>
-              {/* A literal space keeps the accessible name ("Make your business look
-                  unforgettable.") intact even though the spans are block-level. */}
+            <h1 className="hero-title rise" style={{ ["--d" as string]: "120ms" }}>
+              {/* A literal space keeps the accessible name intact even though the
+                  spans are block-level. */}
               <span>
                 {t.hero.titleLine1}
               </span>{" "}
               <span className="hero-title-outline">{t.hero.titleLine2}</span>
             </h1>
 
-            <p className="rise hero-subtitle hero-subtitle-left" style={{ ["--d" as string]: "220ms" }}>
+            <p className="hero-subtitle rise" style={{ ["--d" as string]: "220ms" }}>
               {t.hero.subtitleText}
             </p>
 
-            <div className="rise hero-actions" style={{ ["--d" as string]: "320ms" }}>
+            <div className="hero-actions rise" style={{ ["--d" as string]: "320ms" }}>
               <WhatsAppButton size="lg" className="w-full sm:w-auto" />
               <TelegramButton size="lg" className="w-full sm:w-auto" />
             </div>
 
-            <div className="rise hero-trustline hero-trustline-left" style={{ ["--d" as string]: "400ms" }}>
+            <div className="hero-trustline rise" style={{ ["--d" as string]: "400ms" }}>
               <span><Check width={14} height={14} /> {t.hero.trustFree}</span>
               <span><Check width={14} height={14} /> {t.hero.trustDays}</span>
               <span><Check width={14} height={14} /> {t.hero.trustMobile}</span>
             </div>
           </div>
 
+          {/* --------------------------------------- product stage (below copy) */}
           <div className="hero-visual rise" style={{ ["--d" as string]: "240ms" }} aria-label={t.hero.visualAria}>
             <div className="hero-visual-halo" aria-hidden />
+
+            {/* Laptop / desktop browser — the anchor of the composition */}
             <div className="hero-browser">
               <div className="hero-browser-top">
                 <div className="hero-browser-dots"><i /><i /><i /></div>
@@ -80,15 +89,11 @@ export function Hero() {
                 </div>
                 <div className="hero-site-foot"><span>DESIGNED WITH PURPOSE</span><span>01 — 03</span></div>
               </div>
+              <div className="hero-browser-base" aria-hidden><span /></div>
             </div>
 
-            <div className="hero-floating-card hero-work-card">
-              <div className="hero-card-head"><span className="hero-card-mark">F.</span><span><b>Selected work</b><small>Recent digital projects</small></span><ArrowUpRight width={16} height={16} /></div>
-              <div className="hero-mini-projects">{WORK_IMAGES.map((img, i) => <div className="hero-mini-project" key={img.label}><img src={img.src} alt={img.alt} loading="lazy" /><span>{String(i + 1).padStart(2, "0")}</span></div>)}</div>
-              <div className="hero-card-foot"><span className="hero-live-dot" /> <span>Design that works harder.</span></div>
-            </div>
-
-            <div className="hero-floating-card hero-mobile-card">
+            {/* Phone — overlaps the right edge of the laptop */}
+            <div className="hero-mobile-card">
               <div className="hero-phone">
                 <div className="hero-phone-notch" />
                 <div className="hero-phone-screen">
@@ -99,13 +104,25 @@ export function Hero() {
                   <div className="hero-phone-lines"><i /><i /><i /></div>
                 </div>
               </div>
-              <span className="hero-mobile-label">Looks great on every screen</span>
             </div>
 
-            <div className="hero-visual-caption"><span className="hero-pulse-dot" /> {t.hero.visualLabel}</div>
+            {/* Work card — overlaps the left edge, in front of the laptop */}
+            <div className="hero-floating-card hero-work-card">
+              <div className="hero-card-head"><span className="hero-card-mark">F.</span><span><b>Selected work</b><small>Recent digital projects</small></span><ArrowUpRight width={16} height={16} /></div>
+              <div className="hero-mini-projects">{WORK_IMAGES.map((img, i) => <div className="hero-mini-project" key={img.label}><img src={img.src} alt={img.alt} loading="lazy" /><span>{String(i + 1).padStart(2, "0")}</span></div>)}</div>
+              <div className="hero-card-foot"><span className="hero-live-dot" /> <span>Design that works harder.</span></div>
+            </div>
+          </div>
+
+          {/* Status pill — sits clear of the laptop base, below the composition */}
+          <div className="hero-status-pill">
+            <span className="hero-pulse-dot" />
+            <span>{t.hero.visualLabel}</span>
           </div>
         </div>
       </div>
+
+      <div className="hero-floor-fade" aria-hidden />
     </section>
   );
 }

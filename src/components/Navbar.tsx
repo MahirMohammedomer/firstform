@@ -20,13 +20,13 @@ export function Logo({ className, light }: { className?: string; light?: boolean
         <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden>
           <g transform="translate(7.103 8.414) scale(0.3276)">
             <path d="M18 120V24h116l-19 20H51v19h53L84 82H51v38H18Z" fill={light ? "#0a0a0b" : "#ffffff"} />
-            <path d="M99 24h35l-19 20H80z" fill="#F15F46" />
+            <path d="M99 24h35l-19 20H80z" fill="#3b82f6" />
           </g>
         </svg>
       </span>
       <span className="min-w-0 flex flex-col leading-none">
         <span className={cn("text-[17px] font-semibold tracking-tight", light ? "text-white" : "text-ink-950")}>
-          First<span className={light ? "text-[#F15F46]" : "text-[#F15F46]"}>form</span>
+          First<span className="text-accent-500">form</span>
         </span>
         <span className={cn("hidden sm:block text-[9px] font-medium tracking-[0.12em] uppercase mt-0.5 truncate", light ? "text-white/55" : "text-ink-400")}>
           We make the first impression
