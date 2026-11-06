@@ -60,7 +60,6 @@ body {
 
 ::selection {
   background: var(--color-accent-100);
-  color: var 
   color: var(--color-ink-950);
 }
 
