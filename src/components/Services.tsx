@@ -5,8 +5,14 @@ import { SectionHeader } from "./ui";
 
 export function Services() {
   const { t } = useLang();
-  const primary = [t.services.items[0], t.services.items[1], t.services.items[5], t.services.items[6]];
-  const secondary = [t.services.items[2], t.services.items[3], t.services.items[4], t.services.items[7]];
+  /*
+   * `t.services.items` holds eight services (0–7). Split them into the four
+   * headline cards and the four secondary pills so every service is shown
+   * exactly once — the previous mapping repeated index 7 and dropped
+   * "Payments & integrations" and "SEO & local visibility" entirely.
+   */
+  const primary = [t.services.items[0], t.services.items[1], t.services.items[2], t.services.items[3]];
+  const secondary = [t.services.items[4], t.services.items[5], t.services.items[6], t.services.items[7]];
 
   return (
     <section id="services" className="relative overflow-hidden bg-ink-950 py-24 text-white sm:py-32">

@@ -15,7 +15,7 @@ type Status = "idle" | "loading" | "success" | "error";
 
 function Stars({ value, onChange, readonly }: { value: number; onChange?: (n: number) => void; readonly?: boolean }) {
   return (
-    <div className="flex gap-1" role={readonly ? "img" : "group"} aria-label={`${value} of 5 stars`}>
+    <div className="flex gap-1" role={readonly ? "img" : "radiogroup"} aria-label={`${value} of 5 stars`}>
       {[1, 2, 3, 4, 5].map((n) => (
         <button
           key={n}
@@ -29,6 +29,9 @@ function Stars({ value, onChange, readonly }: { value: number; onChange?: (n: nu
             readonly && "cursor-default",
           )}
           aria-label={`${n} star${n > 1 ? "s" : ""}`}
+          aria-pressed={!readonly ? n === value : undefined}
+          aria-checked={!readonly ? n === value : undefined}
+          role={readonly ? undefined : "radio"}
         >
           ★
         </button>
@@ -206,7 +209,7 @@ export function Reviews() {
                 onChange={(e) => setHoneypot(e.target.value)}
                 tabIndex={-1}
                 autoComplete="off"
-                className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                className="pointer-events-none absolute h-px w-px opacity-0"
                 aria-hidden
               />
               <div>

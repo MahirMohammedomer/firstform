@@ -1,18 +1,556 @@
-undefined
+@import "tailwindcss";
 
-/* FirstForm hero: Ramp split composition + Wope atmospheric perspective */
+/* ============================================================================
+   FirstForm design system
+   ---------------------------------------------------------------------------
+   Tailwind v4 is configured through @theme (CSS-first config). The ink/accent
+   palettes, the container helper and the shared component classes all live
+   here so the JSX can stay free of inline style objects.
+   ========================================================================== */
+
+@theme {
+  /* Neutral "ink" ramp — warm-neutral greys used for text, borders and surfaces */
+  --color-ink-50: #f6f6f4;
+  --color-ink-100: #ededea;
+  --color-ink-200: #dededa;
+  --color-ink-300: #c7c7c1;
+  --color-ink-400: #a1a19a;
+  --color-ink-500: #77776f;
+  --color-ink-600: #575750;
+  --color-ink-700: #3f3f3a;
+  --color-ink-800: #2a2a27;
+  --color-ink-900: #1b1b19;
+  --color-ink-950: #0a0a0b;
+
+  /* Accent — the brand coral from the Firstform logo sheet (#F15F46) */
+  --color-accent-50: #fef3f1;
+  --color-accent-100: #fde4df;
+  --color-accent-400: #f5806a;
+  --color-accent-500: #f15f46;
+  --color-accent-600: #d94a33;
+  --color-accent-700: #b53b27;
+
+  --font-sans: "Inter", "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /*
+    Ethiopic fallback stack. Amharic is the site's second language, so the
+    stack lists the Ethiopic faces that ship with common desktop and mobile
+    operating systems before falling back to the generic sans-serif.
+    To guarantee the glyphs on every device, drop a self-hosted
+    "Noto Sans Ethiopic" woff2 into /public/fonts and add the @font-face
+    rule below it — no third-party request is made today.
+  */
+  --font-ethiopic: "Noto Sans Ethiopic", "Nyala", "Abyssinica SIL", "Ethiopia Jiret", "Kefa", system-ui, sans-serif;
+
+  /* Custom letter-spacing used on the display headings. */
+  --tracking-tightest: -0.035em;
+
+  --shadow-soft: 0 1px 2px rgba(10, 10, 11, 0.04), 0 8px 24px -12px rgba(10, 10, 11, 0.16);
+  --shadow-lift: 0 2px 4px rgba(10, 10, 11, 0.05), 0 24px 48px -20px rgba(10, 10, 11, 0.28);
+
+  --radius-4xl: 2rem;
+
+  --animate-drift: drift 18s ease-in-out infinite;
+  --animate-drift-slow: drift 26s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-breathe: breathe 12s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ------------------------------------------------------------------ base -- */
+
+html {
+  scroll-behavior: smooth;
+  /* Fixed header + offer bar sit above the fold; keep anchor targets clear. */
+  scroll-padding-top: 6.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #fff;
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-ink-950);
+  color: #fff;
+}
+
+/* Keep focus rings visible for keyboard users on every interactive element. */
+:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------- utilities -- */
+
+.container-x {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 84rem;
+}
+
+@media (min-width: 640px) {
+  .container-x { padding-inline: 2rem; }
+}
+
+@media (min-width: 1280px) {
+  .container-x { padding-inline: 2.5rem; }
+}
+
+/* Frosted surface used by the navbar and the floating contact dock. */
+.glass {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Arrow inside a Button with the `arrow` prop. */
+.btn-arrow svg {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-arrow:hover svg,
+.btn-arrow:focus-visible svg {
+  transform: translateX(3px);
+}
+
+/* Amharic glyphs need a font with Ethiopic coverage and looser line height. */
+.font-ethiopic {
+  font-family: var(--font-ethiopic);
+  line-height: 1.6;
+}
+
+/* When the whole page is in Amharic, use the Ethiopic face throughout. */
+html[data-lang="am"] body {
+  font-family: var(--font-ethiopic);
+  line-height: 1.65;
+}
+
+/* Latin runs inside Amharic text (brand names, prices, "SEO"…) keep the UI face. */
+html[data-lang="am"] .font-ethiopic,
+html[data-lang="am"] .latin {
+  font-family: var(--font-sans);
+}
+
+/* --------------------------------------------------------- scroll reveal -- */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-dir="up"] { transform: translateY(26px); }
+.reveal[data-dir="left"] { transform: translateX(-26px); }
+.reveal[data-dir="right"] { transform: translateX(26px); }
+.reveal[data-dir="scale"] { transform: scale(0.965); }
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero copy animates in immediately on load rather than on scroll. */
+.rise {
+  opacity: 0;
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------- marquee --- */
+
+.marquee {
+  animation: var(--animate-marquee);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* ------------------------------------------------------------- skeleton -- */
+
+.shimmer {
+  background: linear-gradient(100deg, rgba(237, 237, 234, 0) 20%, rgba(237, 237, 234, 0.95) 50%, rgba(237, 237, 234, 0) 80%);
+  background-size: 220% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@keyframes shimmer {
+  from { background-position: 180% 0; }
+  to { background-position: -80% 0; }
+}
+
+.ping-soft {
+  animation: var(--animate-pulse-soft);
+}
+
+@keyframes pulse-soft {
+  0% { transform: scale(1); opacity: 0.7; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Screenshot panels scroll slightly to mimic a real browser viewport. */
+.screenshot-scroll {
+  animation: screenshot-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes screenshot-drift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3%); }
+}
+
+/* --------------------------------------------------------------- motion -- */
+
+.drift {
+  animation: var(--animate-drift);
+}
+
+.drift-slow {
+  animation: var(--animate-drift-slow);
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(4%, -6%, 0) scale(1.08); }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+/* ----------------------------------------------------------- components -- */
+
+.card-lift {
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Pointer-following radial highlight on the feature cards. */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(241, 95, 70, 0.09),
+    transparent 70%
+  );
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* FAQ accordion: animate the panel height with grid-rows. */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-panel > div {
+  overflow: hidden;
+}
+
+.faq-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+/* --------------------------------------------------------- services band -- */
+
+.services-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 65% at 50% 40%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 40%, #000 30%, transparent 100%);
+}
+
+.services-glow {
+  animation: var(--animate-drift);
+}
+
+.service-feature {
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.6s ease,
+    border-color 0.6s ease;
+}
+
+.service-index {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.6rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.service-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.service-feature-line {
+  position: absolute;
+  left: 1.75rem;
+  top: 4.6rem;
+  width: 2.75rem;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.35), transparent);
+}
+
+.service-arrow {
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s ease,
+    color 0.5s ease;
+}
+
+/* ============================================================================
+   Hero: Ramp split composition + Wope atmospheric perspective
+   ========================================================================== */
 .hero-combo { isolation: isolate; min-height: 690px; }
+
+/* Background atmosphere layer — sits behind the hero copy and visual. */
+.hero-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 11, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 11, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 75%);
+}
+
+.hero-glow {
+  position: absolute;
+  width: 42rem;
+  height: 42rem;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.hero-glow-one {
+  left: 12%;
+  top: -8rem;
+  background: rgba(241, 95, 70, 0.12);
+}
+
+.hero-glow-two {
+  right: 4%;
+  top: 8rem;
+  background: rgba(241, 95, 70, 0.08);
+}
+
+/* Perspective floor grid that fades out toward the horizon. */
+.hero-perspective {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  height: 22rem;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 340px;
+  perspective-origin: 50% 0%;
+}
+
+.hero-perspective-grid {
+  position: absolute;
+  inset: -60% 0 0;
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 11, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 11, 0.09) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: rotateX(72deg);
+  transform-origin: 50% 0%;
+}
+
+.hero-perspective-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, #fff 92%);
+}
+
+/* Small eyebrow above the headline. */
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+
+.hero-kicker-line {
+  display: block;
+  height: 1px;
+  width: 40px;
+  background: linear-gradient(to right, var(--color-ink-900), transparent);
+}
+
+/* Scroll-triggered offer ribbon at the top of the hero. */
+.hero-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.9rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: linear-gradient(to right, rgba(251, 191, 36, 0.14), rgba(249, 115, 22, 0.14));
+  color: var(--color-ink-900);
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.hero-offer:hover {
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+.hero-offer > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-950);
+}
+
+.hero-offer strong {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Copy block primitives. */
+.hero-title { color: var(--color-ink-950); }
+.hero-subtitle { color: var(--color-ink-500); }
+
+.hero-trustline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-ink-600);
+  font-weight: 500;
+}
+
+.hero-trustline > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.hero-trustline svg {
+  color: var(--color-accent-500);
+}
+
+/* Small pulsing status dot under the hero visual. */
+.hero-pulse-dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #35b875;
+  box-shadow: 0 0 0 3px rgba(53, 184, 117, 0.14);
+  animation: hero-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hero-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(53, 184, 117, 0.14); }
+  50% { box-shadow: 0 0 0 6px rgba(53, 184, 117, 0.04); }
+}
 .hero-combo-layout { display:grid; grid-template-columns:minmax(0,.91fr) minmax(0,1.09fr); align-items:center; gap:clamp(28px,4vw,64px); min-height:510px; }
 .hero-copy { position:relative; z-index:3; min-width:0; padding:22px 0 34px; }
 .hero-kicker-left { justify-content:flex-start; margin-top:0; gap:10px; font-size:10px; letter-spacing:.14em; }
 .hero-kicker-left .hero-kicker-line { width:24px; }
 .hero-title-left { max-width:650px; margin:25px 0 0; font-size:clamp(3rem,5.3vw,5.55rem); line-height:.99; letter-spacing:-.065em; text-wrap:balance; }
 .hero-title-left > span { display:block; }
+/* The second line is rendered as an outline so the headline reads as two weights. */
+.hero-title-outline { color:transparent; -webkit-text-stroke:1.5px var(--color-ink-950); text-stroke:1.5px var(--color-ink-950); paint-order:stroke fill; }
+@supports not ((-webkit-text-stroke:1px black) or (text-stroke:1px black)) {
+  .hero-title-outline { color:var(--color-ink-950); }
+}
 .hero-subtitle-left { max-width:490px; margin:24px 0 0; font-size:clamp(1rem,1.35vw,1.13rem); line-height:1.7; }
 .hero-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:30px; }
 .hero-trustline-left { justify-content:flex-start; gap:16px; margin-top:22px; font-size:12px; }
 .hero-visual { position:relative; min-width:0; min-height:470px; display:flex; align-items:center; justify-content:center; perspective:1400px; isolation:isolate; }
-.hero-visual-halo { position:absolute; width:92%; height:72%; left:4%; top:15%; border-radius:50%; background:radial-gradient(ellipse,rgba(59,108,246,.13),rgba(59,108,246,.045) 43%,transparent 72%); filter:blur(25px); z-index:-1; animation:hero-breathe 12s ease-in-out infinite; }
+.hero-visual-halo { position:absolute; width:92%; height:72%; left:4%; top:15%; border-radius:50%; background:radial-gradient(ellipse,rgba(241,95,70,.13),rgba(241,95,70,.045) 43%,transparent 72%); filter:blur(25px); z-index:-1; animation:hero-breathe 12s ease-in-out infinite; }
 .hero-browser { position:relative; width:100%; max-width:640px; overflow:hidden; border:1px solid rgba(10,10,11,.13); border-radius:17px; background:#fff; box-shadow:0 25px 70px -32px rgba(10,10,11,.27),0 4px 14px rgba(10,10,11,.08); transform:rotateY(-7deg) rotateX(2deg); transform-origin:center; transition:transform .7s cubic-bezier(.16,1,.3,1),box-shadow .7s; z-index:1; }
 .hero-visual:hover .hero-browser { transform:rotateY(-2deg) rotateX(0) translateY(-4px); box-shadow:0 34px 85px -35px rgba(10,10,11,.3),0 4px 14px rgba(10,10,11,.08); }
 .hero-browser-top { height:42px; display:flex; align-items:center; gap:15px; padding:0 14px; border-bottom:1px solid #ededf0; background:#fbfbfc; }
@@ -40,9 +578,31 @@ undefined
 .hero-mobile-card {right:-1%;bottom:-12px;width:116px;padding:6px 6px 10px;transform:rotate(5deg);transition:transform .5s cubic-bezier(.16,1,.3,1);}.hero-visual:hover .hero-mobile-card{transform:rotate(2deg) translateY(-5px)}
 .hero-phone {position:relative;border:3px solid #17171b;border-radius:18px;background:#17171b;padding:4px;box-shadow:0 7px 16px rgba(0,0,0,.16)}.hero-phone-notch{position:absolute;z-index:2;top:5px;left:50%;width:35px;height:7px;transform:translateX(-50%);border-radius:0 0 7px 7px;background:#17171b}.hero-phone-screen{overflow:hidden;min-height:176px;border-radius:12px;background:#fff;padding:15px 6px 8px;color:#17171b}.hero-phone-brand{display:block;font-size:8px;font-weight:800;letter-spacing:-.04em;margin-bottom:8px}.hero-phone-screen>img{display:block;width:100%;height:63px;object-fit:cover;border-radius:5px}.hero-phone-screen>b{display:block;font-size:12px;line-height:1.08;letter-spacing:-.04em;margin-top:9px}.hero-phone-cta{display:block;margin-top:8px;border-radius:4px;background:var(--color-accent-500);padding:6px;color:white;text-align:center;font-size:7px;font-weight:650}.hero-phone-lines{display:grid;gap:4px;margin-top:9px}.hero-phone-lines i{height:3px;border-radius:5px;background:#e9e9ee}.hero-phone-lines i:nth-child(2){width:75%}.hero-phone-lines i:nth-child(3){width:55%}.hero-mobile-label{display:block;padding-top:7px;text-align:center;font-size:7px;font-weight:650;color:#686873}
 .hero-visual-caption {position:absolute;bottom:-37px;left:50%;display:flex;align-items:center;gap:8px;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:600;color:#777781}
-.hero-combo .hero-perspective {bottom:-125px;opacity:.7}.hero-combo .hero-glow-one{left:68%;top:30px;background:rgba(59,108,246,.09)}.hero-combo .hero-glow-two{right:3%;top:190px}
+.hero-combo .hero-perspective {bottom:-125px;opacity:.7}.hero-combo .hero-glow-one{left:68%;top:30px;background:rgba(241,95,70,.09)}.hero-combo .hero-glow-two{right:3%;top:190px}
 @media (min-width:1500px){.hero-combo-layout{gap:70px}.hero-visual{min-height:540px}}
 @media (max-width:1024px){.hero-combo-layout{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px}.hero-title-left{font-size:clamp(2.8rem,5.4vw,4.5rem)}.hero-visual{min-height:420px}.hero-work-card{left:-3%;bottom:9px}.hero-mobile-card{right:-2%}.hero-trustline-left{gap:11px}.hero-trustline-left span{font-size:11px}}
 @media (max-width:760px){.hero-combo{padding-top:110px;min-height:0}.hero-combo-layout{grid-template-columns:1fr;gap:20px}.hero-copy{padding:15px 0 0}.hero-title-left{font-size:clamp(3rem,10vw,4.8rem);max-width:620px}.hero-subtitle-left{max-width:560px}.hero-visual{width:100%;max-width:650px;min-height:390px;margin:0 auto 24px}.hero-browser{width:94%;transform:rotateY(-3deg)}.hero-work-card{left:0;bottom:2px;width:clamp(180px,36vw,245px)}.hero-mobile-card{right:0;bottom:-8px;width:108px}.hero-visual-caption{bottom:-28px}.hero-combo .hero-perspective{bottom:-70px}.hero-kicker-left{margin-top:0}}
 @media (max-width:480px){.hero-combo{padding-top:98px;padding-bottom:32px}.hero-combo-layout{gap:12px}.hero-kicker-left{font-size:8px;letter-spacing:.09em;gap:7px}.hero-kicker-left .hero-kicker-line{width:14px}.hero-title-left{font-size:clamp(2.7rem,12.4vw,3.6rem);line-height:1.01;margin-top:20px;letter-spacing:-.065em}.hero-title-left .hero-title-outline{-webkit-text-stroke:1px #0a0a0b}.hero-subtitle-left{font-size:14px;line-height:1.65;margin-top:17px}.hero-actions{margin-top:22px;gap:9px}.hero-trustline-left{display:grid;grid-template-columns:repeat(2,max-content);justify-content:flex-start;gap:9px 15px;margin-top:17px}.hero-visual{min-height:315px;margin-top:5px}.hero-browser{width:100%;border-radius:12px}.hero-browser-top{height:32px;padding:0 9px;gap:8px}.hero-browser-dots{gap:3px}.hero-browser-dots i{width:5px;height:5px}.hero-address{font-size:8px;padding:4px 6px}.hero-site-preview{padding:12px}.hero-site-nav{font-size:7px}.hero-site-logo{font-size:13px}.hero-site-nav b{padding:7px;font-size:7px}.hero-site-body{gap:9px;padding:18px 0 13px}.hero-site-eyebrow{font-size:5px;margin-bottom:8px}.hero-site-copy strong{font-size:clamp(17px,5.5vw,23px)}.hero-site-copy p{font-size:7px;margin:8px 0 10px}.hero-site-button{font-size:6px;padding:7px}.hero-site-foot{font-size:5px;padding-top:8px}.hero-work-card{width:170px;padding:9px;border-radius:10px;left:-2px;bottom:0}.hero-card-mark{width:24px;height:24px;font-size:12px}.hero-card-head b{font-size:9px}.hero-card-head small{font-size:7px}.hero-mini-projects{gap:4px;margin-top:8px}.hero-card-foot{font-size:7px;margin-top:7px}.hero-mobile-card{width:88px;right:-2px;bottom:-7px;padding:4px 4px 7px}.hero-phone{border-radius:14px;padding:3px}.hero-phone-screen{min-height:137px;border-radius:10px;padding:12px 5px 6px}.hero-phone-screen>img{height:45px}.hero-phone-screen>b{font-size:9px}.hero-phone-brand{font-size:7px}.hero-phone-cta{font-size:6px;padding:5px}.hero-mobile-label{font-size:6px}.hero-visual-caption{font-size:9px;bottom:-23px}}
-@media (prefers-reduced-motion:reduce){.hero-visual-halo{animation:none}}
+
+/* --------------------------------------------------------- reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .rise {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-visual-halo { animation: none; }
+}

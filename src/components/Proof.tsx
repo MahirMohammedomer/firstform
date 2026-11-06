@@ -13,6 +13,7 @@ export function Proof() {
         </Reveal>
       </div>
       <Reveal className="mask-fade-x mt-7 overflow-hidden" delay={100}>
+        {/* The marquee is decorative — the readable list follows outside the aria-hidden region. */}
         <ul className="marquee flex w-max gap-3 pr-3" aria-hidden>
           {items.map((item, i) => (
             <li
@@ -24,12 +25,12 @@ export function Proof() {
             </li>
           ))}
         </ul>
-        <ul className="sr-only">
-          {t.proof.items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
       </Reveal>
+      <ul className="sr-only">
+        {t.proof.items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </section>
   );
 }

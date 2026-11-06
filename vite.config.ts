@@ -16,4 +16,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  server: {
+    host: "0.0.0.0",
+    // Allow the Arena preview host (and any *.e2b.app origin) through.
+    allowedHosts: [".e2b.app", ".arena.ai"],
+  },
+  preview: {
+    host: "0.0.0.0",
+    allowedHosts: [".e2b.app", ".arena.ai"],
+  },
 });

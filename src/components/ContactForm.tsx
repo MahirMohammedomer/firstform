@@ -38,11 +38,14 @@ export function ContactForm() {
   const [business, setBusiness] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [service, setService] = useState("");
+  /* Store the service as an index so the selection survives a language switch —
+     the option labels are translated and would no longer match the stored value. */
+  const [serviceIdx, setServiceIdx] = useState<number>(-1);
   const [message, setMessage] = useState("");
   const [honeypot, setHoneypot] = useState(""); // spam trap — must stay empty
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const copy =
     lang === "am"
@@ -68,6 +71,10 @@ export function ContactForm() {
           error: "አልተሳካም። እንደገና ይሞክሩ ወይም WhatsApp ይጠቀሙ።",
           or: "ወይም በቀጥታ",
           needContact: "ኢሜይል ወይም ስልክ ያስፈልጋል",
+          nameRequired: "ስምዎን ያስፈልጋል",
+          messageRequired: "መልእክትዎን ያስፈልጋል",
+          emailInvalid: "ትክክል የኢሜይል አድራሻ ያስገቡ",
+          fixErrors: "እባክዎ በታች ያለውን መረጃ ያረጋግጡ።",
         }
       : {
           eyebrow: "Contact",
@@ -91,17 +98,33 @@ export function ContactForm() {
           error: "Something went wrong. Try again or use WhatsApp.",
           or: "Or reach us directly",
           needContact: "Email or phone is required",
+          nameRequired: "Please enter your name",
+          messageRequired: "Please tell us about your project",
+          emailInvalid: "Please enter a valid email address",
+          fixErrors: "Please check the highlighted fields below.",
         };
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (honeypot) return; // bot filled hidden field
-    if (!name.trim() || !message.trim()) return;
-    if (!email.trim() && !phone.trim()) {
-      setErrorMsg(copy.needContact);
+
+    /* Validate up front so the user sees exactly which fields need attention
+       instead of a single generic error message. */
+    const errs: Record<string, string> = {};
+    if (!name.trim()) errs.name = copy.nameRequired;
+    if (!message.trim()) errs.message = copy.messageRequired;
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      errs.email = copy.emailInvalid;
+    }
+    if (!email.trim() && !phone.trim()) errs.email = copy.needContact;
+
+    setFieldErrors(errs);
+    if (Object.keys(errs).length) {
+      setErrorMsg(copy.fixErrors);
       setStatus("error");
       return;
     }
+
     if (!supabaseConfigured || !supabase) {
       setErrorMsg(copy.error);
       setStatus("error");
@@ -116,7 +139,7 @@ export function ContactForm() {
       business_name: business.trim() || null,
       email: email.trim() || null,
       phone: phone.trim() || null,
-      service_needed: service || null,
+      service_needed: serviceIdx >= 0 ? services[serviceIdx] : null,
       message: message.trim(),
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 300) : null,
     });
@@ -132,8 +155,10 @@ export function ContactForm() {
     setBusiness("");
     setEmail("");
     setPhone("");
-    setService("");
+    setServiceIdx(-1);
     setMessage("");
+    setHoneypot("");
+    setFieldErrors({});
   }
 
   return (
@@ -173,7 +198,7 @@ export function ContactForm() {
                   onChange={(e) => setHoneypot(e.target.value)}
                   tabIndex={-1}
                   autoComplete="off"
-                  className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                  className="pointer-events-none absolute h-px w-px opacity-0"
                   aria-hidden
                 />
 
@@ -185,12 +210,22 @@ export function ContactForm() {
                     <input
                       id="cf-name"
                       required
-                      className={inputCls}
+                      aria-invalid={Boolean(fieldErrors.name)}
+                      aria-describedby={fieldErrors.name ? "cf-name-err" : undefined}
+                      className={cn(inputCls, fieldErrors.name && "border-red-400 focus:border-red-500 focus:ring-red-500/10")}
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (fieldErrors.name) setFieldErrors((p) => ({ ...p, name: "" }));
+                      }}
                       placeholder={copy.namePh}
                       maxLength={120}
                     />
+                    {fieldErrors.name && (
+                      <p id="cf-name-err" className="mt-1.5 text-[12px] font-medium text-red-600">
+                        {fieldErrors.name}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label className={labelCls} htmlFor="cf-business">
@@ -212,12 +247,22 @@ export function ContactForm() {
                     <input
                       id="cf-email"
                       type="email"
-                      className={inputCls}
+                      aria-invalid={Boolean(fieldErrors.email)}
+                      aria-describedby={fieldErrors.email ? "cf-email-err" : undefined}
+                      className={cn(inputCls, fieldErrors.email && "border-red-400 focus:border-red-500 focus:ring-red-500/10")}
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: "" }));
+                      }}
                       placeholder={copy.emailPh}
                       maxLength={160}
                     />
+                    {fieldErrors.email && (
+                      <p id="cf-email-err" className="mt-1.5 text-[12px] font-medium text-red-600">
+                        {fieldErrors.email}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label className={labelCls} htmlFor="cf-phone">
@@ -241,13 +286,13 @@ export function ContactForm() {
                   </label>
                   <select
                     id="cf-service"
-                    className={cn(inputCls, "appearance-none")}
-                    value={service}
-                    onChange={(e) => setService(e.target.value)}
+                    className={cn(inputCls, "appearance-none pr-10", serviceIdx < 0 && "text-ink-400")}
+                    value={serviceIdx < 0 ? "" : String(serviceIdx)}
+                    onChange={(e) => setServiceIdx(e.target.value === "" ? -1 : Number(e.target.value))}
                   >
                     <option value="">{copy.servicePh}</option>
-                    {services.map((s) => (
-                      <option key={s} value={s}>
+                    {services.map((s, i) => (
+                      <option key={s} value={String(i)}>
                         {s}
                       </option>
                     ))}
@@ -262,12 +307,25 @@ export function ContactForm() {
                     id="cf-message"
                     required
                     rows={4}
-                    className="w-full rounded-2xl border border-ink-200 bg-white px-4 py-3 text-[15px] text-ink-900 placeholder:text-ink-400 transition-all duration-300 hover:border-ink-300 focus:border-ink-950 focus:ring-4 focus:ring-ink-950/8 focus:outline-none"
+                    aria-invalid={Boolean(fieldErrors.message)}
+                    aria-describedby={fieldErrors.message ? "cf-message-err" : undefined}
+                    className={cn(
+                      "w-full rounded-2xl border border-ink-200 bg-white px-4 py-3 text-[15px] text-ink-900 placeholder:text-ink-400 transition-all duration-300 hover:border-ink-300 focus:border-ink-950 focus:ring-4 focus:ring-ink-950/8 focus:outline-none",
+                      fieldErrors.message && "border-red-400 focus:border-red-500 focus:ring-red-500/10",
+                    )}
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    onChange={(e) => {
+                      setMessage(e.target.value);
+                      if (fieldErrors.message) setFieldErrors((p) => ({ ...p, message: "" }));
+                    }}
                     placeholder={copy.messagePh}
                     maxLength={2000}
                   />
+                  {fieldErrors.message && (
+                    <p id="cf-message-err" className="mt-1.5 text-[12px] font-medium text-red-600">
+                      {fieldErrors.message}
+                    </p>
+                  )}
                 </div>
 
                 {status === "error" && (

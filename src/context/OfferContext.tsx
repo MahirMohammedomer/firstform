@@ -1,10 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { getActiveOffer, OFFER_DISCOUNT, type ActiveOffer } from "../holidays";
 
 interface OfferCtx {
   offer: ActiveOffer | null;
-  /** current time in ms (respects ?date= preview) */
-  now: number;
   /** ms until the offer ends (0 if none) */
   remaining: number;
   discount: number;
@@ -26,13 +24,49 @@ function clockOffset(): number {
 
 export function OfferProvider({ children }: { children: ReactNode }) {
   const [offset] = useState(clockOffset);
-  const [now, setNow] = useState(() => Date.now() + offset);
 
-  const offer = useMemo(() => getActiveOffer(now), [now]);
+  /*
+   * The active offer only changes at a handful of boundaries (a few days
+   * around a holiday), so it is resolved from the clock on an interval rather
+   * than on every tick. This keeps the provider from re-rendering the whole
+   * tree once a second just to drive the countdown.
+   */
+  const [offer, setOffer] = useState<ActiveOffer | null>(() => getActiveOffer(Date.now() + offset));
+  const offerRef = useRef(offer);
+  offerRef.current = offer;
 
   useEffect(() => {
-    // Tick every second while an offer is live (for the countdown), otherwise every minute.
-    const id = window.setInterval(() => setNow(Date.now() + offset), offer ? 1000 : 60_000);
+    const resolve = () => {
+      const next = getActiveOffer(Date.now() + offset);
+      const prev = offerRef.current;
+      // Only update state when the offer actually changes.
+      if (prev?.holiday.id !== next?.holiday.id || prev?.end !== next?.end) {
+        offerRef.current = next;
+        setOffer(next);
+      }
+    };
+    resolve();
+    const id = window.setInterval(resolve, 60_000);
+    return () => window.clearInterval(id);
+  }, [offset]);
+
+  /*
+   * The countdown itself is driven by a dedicated interval so that only the
+   * countdown consumers re-render, not every component using `useOffer()`.
+   */
+  const [remaining, setRemaining] = useState(() => {
+    const o = getActiveOffer(Date.now() + offset);
+    return o ? Math.max(0, o.end - (Date.now() + offset)) : 0;
+  });
+
+  useEffect(() => {
+    if (!offer) {
+      setRemaining(0);
+      return;
+    }
+    const tick = () => setRemaining(Math.max(0, offer.end - (Date.now() + offset)));
+    tick();
+    const id = window.setInterval(tick, 1000);
     return () => window.clearInterval(id);
   }, [offer, offset]);
 
@@ -40,13 +74,12 @@ export function OfferProvider({ children }: { children: ReactNode }) {
     const d = offer ? OFFER_DISCOUNT : 0;
     return {
       offer,
-      now,
-      remaining: offer ? Math.max(0, offer.end - now) : 0,
+      remaining,
       discount: d,
       price: (base) => Math.round((base * (1 - d)) / 100) * 100,
       saving: (base) => base - Math.round((base * (1 - d)) / 100) * 100,
     };
-  }, [offer, now]);
+  }, [offer, remaining]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

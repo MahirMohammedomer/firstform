@@ -25,11 +25,24 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = lang;
+    /* Tag the root so Ethiopic type can be applied site-wide in Amharic. */
+    document.documentElement.dataset.lang = lang;
     window.localStorage.setItem(STORAGE_KEY, lang);
     document.title =
       lang === "am"
         ? "ፈርስትፎርም — ለኢትዮጵያ ንግዶች ድረ-ገጾች | ነጻ ናሙና፣ በ3 ቀናት"
         : "Firstform — Websites for Ethiopian Businesses | Free Prototype, 3-Day Delivery";
+
+    /* Keep the meta description in sync with the active language. */
+    const desc = document.querySelector('meta[name="description"]');
+    if (desc) {
+      desc.setAttribute(
+        "content",
+        lang === "am"
+          ? "ፈርስትፎርም በአዲስ አበባ፣ ኢትዮጵያ ውስጥ የድረ-ገጽ ዲዛይን እና ልማት ጽ/ቤት ነው። ነፃ ብጁ ናሙና፣ በ3 ቀናት ውስጥ የሚገኝ ድረ-ገጾች። ከ10,000 ብር ጀምሮ።"
+          : "Firstform is a web design and web development studio in Addis Ababa, Ethiopia. We build modern business websites, e-commerce stores, CMS platforms and custom digital systems. Free prototype. Plans from 10,000 ETB.",
+      );
+    }
   }, [lang]);
 
   const value = useMemo<LangCtx>(

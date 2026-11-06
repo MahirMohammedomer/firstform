@@ -8,7 +8,7 @@ export function CTA() {
   const { t } = useLang();
 
   return (
-    <section id="contact" className="scroll-mt-24 px-4 py-6 sm:px-6 sm:py-10">
+    <section id="cta" className="scroll-mt-24 px-4 py-6 sm:px-6 sm:py-10">
       <Reveal dir="scale">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-ink-950 px-6 py-20 text-center text-white sm:rounded-[40px] sm:px-12 sm:py-28">
           <div className="pointer-events-none absolute inset-0" aria-hidden>

@@ -31,16 +31,16 @@ export function Compare() {
               <span
                 aria-hidden
                 className={cn(
-                  "absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full bg-white shadow-soft transition-transform duration-300",
-                  vs === 2 ? "translate-x-full" : "translate-x-0",
+                  "absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full bg-white shadow-soft transition-transform duration-300",
+                  vs === 2 ? "translate-x-[calc(100%+4px)]" : "translate-x-0",
                 )}
-                style={{ left: 4 }}
               />
               {[1, 2].map((i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setVs(i)}
+                  aria-pressed={vs === i}
                   className={cn(
                     "relative z-10 h-10 rounded-full px-2 text-[13px] font-medium truncate",
                     vs === i ? "text-ink-950" : "text-ink-500",
@@ -73,7 +73,7 @@ export function Compare() {
                       </div>
                       {/* Other option */}
                       <div className="flex items-center gap-3 rounded-xl bg-ink-50 px-3.5 py-3">
-                        <span className={cn("grid h-6 w-6 shrink-0 place-items-center rounded-full", empty ? "bg-ink-200" : "bg-ink-200")}>
+                        <span className={cn("grid h-6 w-6 shrink-0 place-items-center rounded-full bg-ink-200")}>
                           {empty ? <X width={12} height={12} className="text-ink-500" /> : <span className="text-[10px] font-bold text-ink-500">vs</span>}
                         </span>
                         <div className="min-w-0">
@@ -99,12 +99,18 @@ export function Compare() {
         <Reveal delay={100} className="mt-16 hidden md:block">
           <div className="overflow-x-auto rounded-[28px] border border-ink-900/8 bg-white shadow-soft">
             <table className="w-full min-w-[640px] border-collapse text-left">
+              <caption className="sr-only">
+                {c.title} — {c.subtitle}
+              </caption>
               <thead>
                 <tr className="border-b border-ink-100">
-                  <th className="px-6 py-5" />
+                  <th scope="col" className="px-6 py-5">
+                    <span className="sr-only">{lang === "am" ? "ምልክት" : "Criterion"}</span>
+                  </th>
                   {c.cols.map((col, i) => (
                     <th
                       key={col}
+                      scope="col"
                       className={cn(
                         "px-5 py-5 text-center text-[13px] font-semibold uppercase tracking-[0.12em]",
                         i === 0 ? "bg-ink-950 text-white" : "text-ink-500",
@@ -118,7 +124,7 @@ export function Compare() {
               <tbody>
                 {c.rows.map((row, ri) => (
                   <tr key={row.label} className={ri !== c.rows.length - 1 ? "border-b border-ink-100" : ""}>
-                    <th className="px-6 py-5 text-[15px] font-medium text-ink-950 text-left">{row.label}</th>
+                    <th scope="row" className="px-6 py-5 text-[15px] font-medium text-ink-950 text-left">{row.label}</th>
                     {row.values.map((v, vi) => {
                       const empty = v === "—";
                       return (
@@ -131,7 +137,16 @@ export function Compare() {
                         >
                           <span className="inline-flex items-center justify-center gap-1.5">
                             {vi === 0 && <Check width={14} height={14} className="text-emerald-400" />}
-                            {empty ? <X width={15} height={15} /> : v}
+                            {empty ? (
+                              <>
+                                <X width={15} height={15} />
+                                <span className="sr-only">
+                                  {lang === "am" ? "የለም" : "Not available"}
+                                </span>
+                              </>
+                            ) : (
+                              v
+                            )}
                           </span>
                         </td>
                       );

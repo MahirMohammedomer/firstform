@@ -24,8 +24,13 @@
     <!-- Canonical & language alternates -->
     <link rel="canonical" href="https://firstform.pro.et/" />
     <link rel="alternate" hreflang="en" href="https://firstform.pro.et/" />
-    <link rel="alternate" hreflang="am" href="https://firstform.pro.et/" />
     <link rel="alternate" hreflang="x-default" href="https://firstform.pro.et/" />
+    <!--
+      The Amharic version is a client-side language toggle on the same URL, not a
+      separate crawlable document. Declaring an "am" alternate that resolves to
+      the same page as "en" is an hreflang conflict, so it is intentionally
+      omitted here.
+    -->
 
     <!-- Open Graph (Facebook, LinkedIn, Telegram previews) -->
     <meta property="og:type" content="website" />
@@ -33,18 +38,19 @@
     <meta property="og:url" content="https://firstform.pro.et/" />
     <meta property="og:title" content="Firstform — Web Developer in Ethiopia | Free Prototype in 3 Days" />
     <meta property="og:description" content="Websites for Ethiopian businesses. Free custom prototype. Bilingual (Amharic + English). Live in 3 days. From 10,000 ETB." />
-    <meta property="og:image" content="https://firstform.pro.et/icon-512.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Firstform logo — Web developer in Ethiopia" />
+    <meta property="og:image" content="https://firstform.pro.et/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Firstform — free website prototype for Ethiopian businesses, live in 3 days" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="am_ET" />
 
     <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Firstform — Web Developer in Ethiopia" />
     <meta name="twitter:description" content="Free custom prototype. 3-day delivery. Bilingual websites for local businesses. From 10,000 ETB." />
-    <meta name="twitter:image" content="https://firstform.pro.et/icon-512.png" />
+    <meta name="twitter:image" content="https://firstform.pro.et/og-image.png" />
 
     <!-- Favicons & icons (critical for Google search results logo) -->
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />

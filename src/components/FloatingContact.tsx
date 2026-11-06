@@ -13,19 +13,31 @@ export function FloatingContact() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const contact = document.getElementById("contact");
-    const onScroll = () => {
+    /*
+     * The dock would sit on top of the contact form and the closing CTA, so it
+     * hides while either of those is on screen. Both are looked up live (they
+     * mount with the page) and re-measured on resize.
+     */
+    const targets = ["contact", "cta"]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    const evaluate = () => {
       const past = window.scrollY > window.innerHeight * 0.7;
-      let nearContact = false;
-      if (contact) {
-        const r = contact.getBoundingClientRect();
-        nearContact = r.top < window.innerHeight && r.bottom > 0;
-      }
-      setVisible(past && !nearContact);
+      const overlapping = targets.some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      });
+      setVisible(past && !overlapping);
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    evaluate();
+    window.addEventListener("scroll", evaluate, { passive: true });
+    window.addEventListener("resize", evaluate);
+    return () => {
+      window.removeEventListener("scroll", evaluate);
+      window.removeEventListener("resize", evaluate);
+    };
   }, []);
 
   return (

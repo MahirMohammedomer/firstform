@@ -90,6 +90,16 @@ const en = {
       prototype: "Free prototype",
       delivered: "Delivered in 3 days",
     },
+    kicker: "DIGITAL EXPERIENCES, BUILT FOR BUSINESS",
+    titleLine1: "Make your business",
+    titleLine2: "look unforgettable.",
+    subtitleText:
+      "We build polished websites and digital tools that make your business look established, earn trust and turn more visits into enquiries. See your own free prototype before you pay.",
+    trustFree: "Free prototype",
+    trustDays: "Launch in 3 days",
+    trustMobile: "Mobile-first",
+    visualLabel: "A glimpse of what's possible",
+    visualAria: "Preview of websites designed by Firstform",
   },
   proof: {
     title: "Built for the businesses that keep Ethiopia running",
@@ -338,6 +348,7 @@ const en = {
     ],
     customFootnote: "Every custom project gets its own scope, timeline and proposal before development starts.",
     customTalk: "Discuss my project",
+    customSeeAll: "See all custom services",
     perProject: "one-time",
     plans: [
       {
@@ -394,9 +405,9 @@ const en = {
     ],
     units: { d: "days", h: "hrs", m: "min", s: "sec" },
     bonuses: [
-      ["Google Business Profile setup (normally Business plan only)", "+30 extra days of free changes (60 total)"],
-      ["First-year domain & hosting renewal on us", "+30 extra days of free changes (90 total)", "Free logo refresh & brand colour palette"],
-      ["20% off your first milestone", "Free scoping session & written proposal"],
+      { plan: "Launch", items: ["Google Business Profile setup (normally Business plan only)", "+30 extra days of free changes (60 total)"] },
+      { plan: "Business", items: ["First-year domain & hosting renewal on us", "+30 extra days of free changes (90 total)", "Free logo refresh & brand colour palette"] },
+      { plan: "Custom", items: ["20% off your first milestone", "Free scoping session & written proposal"] },
     ],
     dockBadge: "−20%",
   },
@@ -522,6 +533,16 @@ const am: typeof en = {
       prototype: "ነጻ ናሙና",
       delivered: "በ3 ቀናት ደርሷል",
     },
+    kicker: "የንግድ ድረ-ገጽ ዲዛይን + ልማት",
+    titleLine1: "ንግድዎን",
+    titleLine2: "ኦንላይን",
+    subtitleText:
+      "ለኢትዮጵያ ንግዶች ፈጣን፣ ዘመናዊ እና ለደንበኞች ቀላል የሆኑ ድረ-ገጾችን እንገነባለን። ከመክፈልዎ በፊት የንግድዎን ነፃ ናሙና ይመልከቱ።",
+    trustFree: "ነፃ ናሙና",
+    trustDays: "3 ቀን ውስጥ",
+    trustMobile: "ለሞባይል የተዘጋጀ",
+    visualLabel: "የምንገነባቸው ድረ-ገጾች",
+    visualAria: "በFirstform የተዘጋጁ ድረ-ገጾች የቀረጻ ማሳያ",
   },
   proof: {
     title: "ኢትዮጵያን ለሚያንቀሳቅሱ ንግዶች የተሠራ",
@@ -770,6 +791,7 @@ const am: typeof en = {
     ],
     customFootnote: "እያንዳንዱ ብጁ ፕሮጀክት ከልማት በፊት የራሱ ወሰን፣ የጊዜ ሰሌዳና ፕሮፖዛል ይኖረዋል።",
     customTalk: "ስለ ፕሮጀክቴ እንወያይ",
+    customSeeAll: "ሁሉንም የብጁ አገልግሎቶች ይመልከቱ",
     perProject: "አንድ ጊዜ",
     plans: [
       { name: "Launch", amount: 15000, price: "15,000", currency: "ብር", desc: "ንግድዎን በትክክል ወደ ኦንላይን የሚያመጣ የተተኮረ ድረ-ገጽ።", cta: "ነጻ ናሙና ያግኙ", features: ["አንድ ገጽ (እስከ 6 ክፍሎች)", "ብጁ እና mobile-first ዲዛይን", "WhatsApp፣ Telegram እና ጥሪ", "Google Maps እና basic SEO", "Domain እና hosting ማዘጋጀት", "በ3 ቀናት ማስጀመር", "30 ቀናት ነጻ ለውጦች"] },
@@ -810,9 +832,9 @@ const am: typeof en = {
     ],
     units: { d: "ቀን", h: "ሰዓት", m: "ደቂቃ", s: "ሰከንድ" },
     bonuses: [
-      ["ጉግል ቢዝነስ ፕሮፋይል ማዋቀር (በመደበኛ በቢዝነስ ዕቅድ ብቻ)", "+30 ተጨማሪ ቀናት ነጻ ለውጦች (በድምሩ 60)"],
-      ["የመጀመሪያ ዓመት ዶሜንና ሆስቲንግ እድሳት በእኛ", "+30 ተጨማሪ ቀናት ነጻ ለውጦች (በድምሩ 90)", "ነጻ የሎጎ ማደስና የብራንድ ቀለም ምርጫ"],
-      ["በመጀመሪያው ደረጃ 20% ቅናሽ", "ነጻ የወሰን ውይይትና የጽሑፍ ፕሮፖዛል"],
+      { plan: "Launch", items: ["ጉግል ቢዝነስ ፕሮፋይል ማዋቀር (በመደበኛ በቢዝነስ ብቻ)", "+30 ተጨማሪ ቀናት ነጻ ለውጦች (በድምሩ 60)"] },
+      { plan: "Business", items: ["የመጀመሪያ ዓመት ዶሜንና ሆስቲንግ ዕድሳት በእኛ", "+30 ተጨማሪ ቀናት ነጻ ለውጦች (በድምሩ 90)", "ነጻ የሎጎ ማደስና የብራንድ ቀለም ምርጫ"] },
+      { plan: "Custom", items: ["በመጀመሪያው ደረጃ 20% ቅናሽ", "ነጻ የወሰን ውይይትና የጽሑፍ ፕሮፖዛል"] },
     ],
     dockBadge: "−20%",
   },

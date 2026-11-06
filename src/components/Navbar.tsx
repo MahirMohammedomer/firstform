@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { cn } from "../utils/cn";
 import { useLang } from "../context/LanguageContext";
 import { Button, TelegramButton, WhatsAppButton } from "./ui";
@@ -10,43 +10,23 @@ import { OfferBar } from "./OfferBar";
 export function Logo({ className, light }: { className?: string; light?: boolean }) {
   return (
     <a href="#top" className={cn("group inline-flex items-center gap-2.5 min-w-0", className)} aria-label="Firstform home">
-      {/* Signature mark */}
+      {/* Forward Cut symbol — the brand mark from the logo sheet. */}
       <span
         className={cn(
-          "grid h-9 w-9 shrink-0 place-items-center rounded-[11px] transition-transform duration-500 ease-out group-hover:rotate-[-5deg]",
+          "grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-[11px] transition-transform duration-500 ease-out group-hover:-rotate-3",
           light ? "bg-white" : "bg-ink-950",
         )}
       >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 180 160"
-          fill="none"
-          aria-hidden
-          className={light ? "text-ink-950" : "text-white"}
-        >
-          <g transform="translate(10 5)">
-            <path
-              d="M23 128 C39 99 49 62 74 34 C88 18 106 12 119 17 C131 22 135 34 130 45 C124 59 108 68 91 74 C73 80 55 87 45 99 C36 110 36 123 44 130 C54 140 71 140 87 131 C106 120 119 103 135 85"
-              stroke="currentColor"
-              strokeWidth="16"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-            <path
-              d="M72 84 C94 79 119 77 146 80"
-              stroke="currentColor"
-              strokeWidth="16"
-              strokeLinecap="round"
-              fill="none"
-            />
+        <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden>
+          <g transform="translate(7.103 8.414) scale(0.3276)">
+            <path d="M18 120V24h116l-19 20H51v19h53L84 82H51v38H18Z" fill={light ? "#0a0a0b" : "#ffffff"} />
+            <path d="M99 24h35l-19 20H80z" fill="#F15F46" />
           </g>
         </svg>
       </span>
       <span className="min-w-0 flex flex-col leading-none">
         <span className={cn("text-[17px] font-semibold tracking-tight", light ? "text-white" : "text-ink-950")}>
-          Firstform
+          First<span className={light ? "text-[#F15F46]" : "text-[#F15F46]"}>form</span>
         </span>
         <span className={cn("hidden sm:block text-[9px] font-medium tracking-[0.12em] uppercase mt-0.5 truncate", light ? "text-white/55" : "text-ink-400")}>
           We make the first impression
@@ -68,20 +48,28 @@ export function LangToggle({ className, light }: { className?: string; light?: b
         className,
       )}
     >
+      {/*
+        The sliding pill is inset by the container's 4px padding. Translating by
+        exactly 100% of the pill width lands it on the second button only when
+        the track is exactly two equal cells, so the translate is derived from
+        the track width instead of the pill width.
+      */}
       <span
         aria-hidden
         className={cn(
-          "absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full shadow-soft transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full shadow-soft transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           light ? "bg-white" : "bg-white",
-          lang === "am" ? "translate-x-full" : "translate-x-0",
+          lang === "am" ? "translate-x-[calc(100%+4px)]" : "translate-x-0",
         )}
-        style={{ left: 4 }}
       />
       <button
         type="button"
         onClick={() => setLang("en")}
         aria-pressed={lang === "en"}
-        className={cn("relative z-10 h-7 w-12 rounded-full transition-colors", lang === "en" && "text-ink-950")}
+        className={cn(
+          "relative z-10 h-7 w-12 rounded-full transition-colors",
+          lang === "en" ? "text-ink-950" : light ? "text-white/70" : "text-ink-500",
+        )}
       >
         EN
       </button>
@@ -90,7 +78,10 @@ export function LangToggle({ className, light }: { className?: string; light?: b
         onClick={() => setLang("am")}
         aria-pressed={lang === "am"}
         lang="am"
-        className={cn("relative z-10 h-7 w-12 rounded-full font-ethiopic transition-colors", lang === "am" && "text-ink-950")}
+        className={cn(
+          "relative z-10 h-7 w-12 rounded-full font-ethiopic transition-colors",
+          lang === "am" ? "text-ink-950" : light ? "text-white/70" : "text-ink-500",
+        )}
       >
         አማ
       </button>
@@ -105,6 +96,43 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState<string>("");
+  const menuPanelRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
+
+  /* Escape closes the mobile menu; Tab is trapped inside it while open. */
+  const onMenuKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      setOpen(false);
+      menuBtnRef.current?.focus();
+      return;
+    }
+    if (e.key !== "Tab") return;
+    const panel = menuPanelRef.current;
+    if (!panel) return;
+    const focusables = panel.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const activeEl = document.activeElement;
+    if (e.shiftKey && (activeEl === first || !panel.contains(activeEl))) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && activeEl === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
+  /* Move focus into the dialog when it opens, and back out when it closes. */
+  useEffect(() => {
+    if (!open) return;
+    const t = window.setTimeout(() => closeBtnRef.current?.focus(), 60);
+    return () => window.clearTimeout(t);
+  }, [open]);
 
   useEffect(() => {
     let raf = 0;
@@ -146,6 +174,29 @@ export function Navbar() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  /* Escape closes the menu even when focus has escaped the dialog. */
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        menuBtnRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  /* A resize past the lg breakpoint should close the mobile sheet. */
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (mq.matches) setOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   const links = [
     { href: "#work", label: t.nav.work },
@@ -228,6 +279,8 @@ export function Navbar() {
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={open}
+                aria-controls="mobile-menu"
+                ref={menuBtnRef}
                 className="grid h-10 w-10 place-items-center rounded-full text-ink-900 transition hover:bg-ink-100 lg:hidden"
               >
                 <Menu />
@@ -247,13 +300,16 @@ export function Navbar() {
       >
         <div className="absolute inset-0 bg-ink-950/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
         <div
+          ref={menuPanelRef}
+          id="mobile-menu"
           className={cn(
-            "absolute inset-x-3 top-3 rounded-[28px] bg-white p-5 shadow-lift transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "absolute inset-x-3 top-3 max-h-[calc(100dvh-1.5rem)] overflow-y-auto rounded-[28px] bg-white p-5 shadow-lift transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
             open ? "translate-y-0 scale-100" : "-translate-y-4 scale-[0.98]",
           )}
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
+          onKeyDown={onMenuKeyDown}
         >
           <div className="flex items-center justify-between">
             <Logo />
@@ -261,6 +317,7 @@ export function Navbar() {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close menu"
+              ref={closeBtnRef}
               className="grid h-10 w-10 place-items-center rounded-full text-ink-900 transition hover:bg-ink-100"
             >
               <X />

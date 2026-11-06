@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLang } from "../context/LanguageContext";
 import { useOffer } from "../context/OfferContext";
 import { fmtETB, tgLink, waLink } from "../i18n";
@@ -111,10 +111,33 @@ function OfferStrip() {
 
 export function Pricing() {
   const { t, lang } = useLang();
-  const [showStarter, setShowStarter] = useState(false);
+  /* The Starter plan is visible by default so the advertised "from 10,000 ETB"
+     price in the page metadata matches what visitors actually see. */
+  const [showStarter, setShowStarter] = useState(true);
   const [customOpen, setCustomOpen] = useState(false);
   const { offer, price, saving } = useOffer();
   const h = offer?.holiday;
+
+  /*
+   * The Starter plan is the cheapest and is hidden behind "More options".
+   * It is sorted to the front so the price ladder always reads
+   * ascending: Starter → Launch → Business → Custom.
+   */
+  const plans = [...t.pricing.plans].sort((a, b) => {
+    if (a.hidden === b.hidden) return 0;
+    return a.hidden ? -1 : 1;
+  });
+  const visiblePlans = plans.filter((plan) => !plan.hidden || showStarter);
+
+  /* Lock background scrolling while the custom-projects dialog is open. */
+  useEffect(() => {
+    if (!customOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [customOpen]);
 
   return (
     <section id="pricing" className="relative scroll-mt-24 overflow-hidden bg-ink-50/70 py-20 sm:py-28">
@@ -130,21 +153,30 @@ export function Pricing() {
 
         <OfferStrip />
 
-        <div className={cn("grid gap-5 lg:grid-cols-3 lg:items-stretch", offer ? "mt-8 sm:mt-10" : "mt-14 sm:mt-16")}>
-          {t.pricing.plans.filter((plan) => !plan.hidden || showStarter).map((plan, i) => {
-            const popular = i === 0;
+        <div
+          className={cn(
+            "grid gap-5 lg:grid-cols-3 lg:items-stretch",
+            visiblePlans.length === 4 && "lg:grid-cols-2 xl:grid-cols-4",
+            offer ? "mt-8 sm:mt-10" : "mt-14 sm:mt-16",
+          )}
+        >
+          {visiblePlans.map((plan, i) => {
+            /* "Launch" is the recommended plan — it is not simply the first one. */
+            const popular = plan.name === "Launch";
             const custom = plan.name === "Custom";
             const discounted = offer && plan.amount > 0 ? price(plan.amount) : null;
             const saved = offer && plan.amount > 0 ? saving(plan.amount) : 0;
-            const bonuses = offer ? (t.offer.bonuses[i] ?? []) : [];
+            const bonuses = offer ? (t.offer.bonuses.find((b) => b.plan === plan.name)?.items ?? []) : [];
             return (
               <Reveal key={plan.name} delay={i * 110} dir="scale" className="h-full">
                 <article
                   className={cn(
                     "relative flex h-full flex-col rounded-[28px] p-7 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-8",
                     popular
-                      ? "bg-ink-950 text-white shadow-lift ring-1 ring-ink-950 lg:-my-3 lg:scale-[1.02] hover:lg:scale-[1.035]"
+                      ? "bg-ink-950 text-white shadow-lift ring-1 ring-ink-950"
                       : "border border-ink-900/8 bg-white text-ink-950 hover:-translate-y-1.5 hover:shadow-lift",
+                    /* Lift the recommended plan only when it sits in a 3-up row. */
+                    popular && visiblePlans.length === 3 && "lg:-my-3 lg:scale-[1.02] hover:lg:scale-[1.035]",
                   )}
                 >
                   <div className="absolute -top-3.5 left-7 flex gap-2">
@@ -192,15 +224,16 @@ export function Pricing() {
                   <p className={cn("mt-3 text-[15px] leading-relaxed", popular ? "text-white/60" : "text-ink-500")}>{plan.desc}</p>
 
                   {custom ? (
-                    <a
-                      href="/custom-software-ethiopia"
+                    <button
+                      type="button"
+                      onClick={() => setCustomOpen(true)}
                       className={cn(
                         "mt-7 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 text-[15px] font-semibold transition-all active:scale-[0.98]",
                         popular ? "bg-white text-ink-950 hover:bg-ink-100" : "bg-ink-950 text-white hover:bg-ink-800",
                       )}
                     >
                       {plan.cta} <ArrowUpRight width={17} height={17} />
-                    </a>
+                    </button>
                   ) : (
                     <Button
                       href={waLink(lang, offer?.code)}
@@ -267,7 +300,15 @@ export function Pricing() {
         </Reveal>
 
         {customOpen && (
-          <div className="fixed inset-0 z-[100] flex items-end justify-center bg-ink-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="custom-project-title">
+          <div
+            className="fixed inset-0 z-[100] flex items-end justify-center bg-ink-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="custom-project-title"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setCustomOpen(false);
+            }}
+          >
             <button type="button" className="absolute inset-0 cursor-default" aria-label="Close custom project" onClick={() => setCustomOpen(false)} />
             <div className="relative max-h-[90vh] w-full max-w-5xl overflow-auto rounded-[30px] bg-white p-6 shadow-lift sm:p-8 lg:p-10">
               <button type="button" onClick={() => setCustomOpen(false)} className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-ink-50 text-ink-700 transition hover:bg-ink-100 hover:text-ink-950" aria-label="Close">
@@ -292,9 +333,17 @@ export function Pricing() {
               </div>
               <div className="mt-7 flex flex-col gap-4 rounded-2xl bg-ink-950 p-5 text-white sm:flex-row sm:items-center sm:justify-between sm:p-6">
                 <p className="max-w-2xl text-[14px] leading-relaxed text-white/65">{t.pricing.customFootnote}</p>
-                <a href={tgLink(lang, offer?.code)} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-white px-5 text-[14px] font-semibold text-ink-950 transition hover:bg-ink-100">
-                  {t.pricing.customTalk} <ArrowUpRight width={16} height={16} />
-                </a>
+                <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row">
+                  <a
+                    href="/custom-software-ethiopia"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white/10 px-5 text-[14px] font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15"
+                  >
+                    {t.pricing.customSeeAll} <ArrowUpRight width={16} height={16} />
+                  </a>
+                  <a href={tgLink(lang, offer?.code)} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-[14px] font-semibold text-ink-950 transition hover:bg-ink-100">
+                    {t.pricing.customTalk} <ArrowUpRight width={16} height={16} />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

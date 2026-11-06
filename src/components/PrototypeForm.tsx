@@ -15,31 +15,35 @@ export function PrototypeForm() {
   const { offer } = useOffer();
   const f = t.form;
   const [name, setName] = useState("");
-  const [type, setType] = useState("");
+  /* Store the business type as an index so the selection survives a language
+     switch — the option labels are translated and would no longer match. */
+  const [typeIdx, setTypeIdx] = useState<number>(-1);
   const [city, setCity] = useState("");
   const [hasSite, setHasSite] = useState(0);
+
+  const typeLabel = typeIdx >= 0 ? f.types[typeIdx] : "";
 
   const message = useMemo(() => {
     const lines = [
       f.msgIntro,
       "",
       `${f.msgName}: ${name.trim() || f.msgNone}`,
-      `${f.msgType}: ${type || f.msgNone}`,
+      `${f.msgType}: ${typeLabel || f.msgNone}`,
       `${f.msgCity}: ${city.trim() || f.msgNone}`,
       `${f.msgSite}: ${f.hasSiteOptions[hasSite]}`,
     ];
     if (offer) lines.push(lang === "am" ? `የቅናሽ ኮድ፡ ${offer.code}` : `Offer code: ${offer.code}`);
     return lines.join("\n");
-  }, [name, type, city, hasSite, f, offer, lang]);
+  }, [name, typeLabel, city, hasSite, f, offer, lang]);
 
   const encoded = encodeURIComponent(message);
   const waHref = `${CONTACT.whatsapp}?text=${encoded}`;
   const tgHref = `${CONTACT.telegram}?text=${encoded}`;
 
   const perks = [
-    { icon: Sparkle, en: "Free custom prototype", am: "ነጻ ብጁ ናሙና" },
-    { icon: Clock, en: "Reply within 24–48h", am: "በ24–48 ሰዓት ውስጥ መልስ" },
-    { icon: Shield, en: "No obligation", am: "ምንም ግዴታ የለም" },
+    { icon: Sparkle, label: lang === "am" ? "ነጻ ብጁ ናሙና" : "Free custom prototype" },
+    { icon: Clock, label: lang === "am" ? "በ24–48 ሰዓት ውስጥ መልስ" : "Reply within 24–48h" },
+    { icon: Shield, label: lang === "am" ? "ምንም ግዴታ የለም" : "No obligation" },
   ];
 
   return (
@@ -53,11 +57,11 @@ export function PrototypeForm() {
             <Reveal dir="left" delay={120}>
               <ul className="mt-8 space-y-3">
                 {perks.map((p) => (
-                  <li key={p.en} className="flex items-center gap-3 text-[15px] text-ink-700">
+                  <li key={p.label} className="flex items-center gap-3 text-[15px] text-ink-700">
                     <span className="grid h-8 w-8 place-items-center rounded-full bg-ink-950 text-white">
                       <p.icon width={15} height={15} />
                     </span>
-                    {lang === "am" ? p.am : p.en}
+                    {p.label}
                   </li>
                 ))}
               </ul>
@@ -74,17 +78,22 @@ export function PrototypeForm() {
             >
               <div className="pointer-events-none absolute -top-20 -right-20 h-56 w-56 rounded-full bg-accent-100/60 blur-3xl" aria-hidden />
               <div className="relative grid gap-4 sm:grid-cols-2">
-                <label className="block sm:col-span-2">
+                <label htmlFor="pf-name" className="block sm:col-span-2">
                   <span className="mb-1.5 block text-[13px] font-medium text-ink-700">{f.name}</span>
-                  <input className={inputCls} value={name} onChange={(e) => setName(e.target.value)} placeholder={f.namePh} autoComplete="organization" />
+                  <input id="pf-name" className={inputCls} value={name} onChange={(e) => setName(e.target.value)} placeholder={f.namePh} autoComplete="organization" />
                 </label>
-                <label className="block">
+                <label htmlFor="pf-type" className="block">
                   <span className="mb-1.5 block text-[13px] font-medium text-ink-700">{f.type}</span>
                   <span className="relative block">
-                    <select className={cn(inputCls, "appearance-none pr-10", !type && "text-ink-400")} value={type} onChange={(e) => setType(e.target.value)}>
+                    <select
+                      id="pf-type"
+                      className={cn(inputCls, "appearance-none pr-10", typeIdx < 0 && "text-ink-400")}
+                      value={typeIdx < 0 ? "" : String(typeIdx)}
+                      onChange={(e) => setTypeIdx(e.target.value === "" ? -1 : Number(e.target.value))}
+                    >
                       <option value="">{f.typePh}</option>
-                      {f.types.map((o) => (
-                        <option key={o} value={o}>
+                      {f.types.map((o, i) => (
+                        <option key={o} value={String(i)}>
                           {o}
                         </option>
                       ))}
@@ -94,9 +103,9 @@ export function PrototypeForm() {
                     </svg>
                   </span>
                 </label>
-                <label className="block">
+                <label htmlFor="pf-city" className="block">
                   <span className="mb-1.5 block text-[13px] font-medium text-ink-700">{f.city}</span>
-                  <input className={inputCls} value={city} onChange={(e) => setCity(e.target.value)} placeholder={f.cityPh} autoComplete="address-level2" />
+                  <input id="pf-city" className={inputCls} value={city} onChange={(e) => setCity(e.target.value)} placeholder={f.cityPh} autoComplete="address-level2" />
                 </label>
                 <fieldset className="sm:col-span-2">
                   <legend className="mb-1.5 block text-[13px] font-medium text-ink-700">{f.hasSite}</legend>
@@ -138,7 +147,8 @@ export function PrototypeForm() {
                   <TelegramIcon width={18} height={18} /> {f.sendTg}
                 </a>
               </div>
-              <p className="relative mt-4 text-center text-[12px] leading-relaxed text-ink-400">{f.privacy}</p>
+              <p id="pf-privacy" className="relative mt-4 text-center text-[12px] leading-relaxed text-ink-400">{f.privacy}</p>
+              {/* Allows Enter-key submission from any field; the visible CTAs are links. */}
               <button type="submit" className="sr-only">
                 {f.sendWa}
               </button>

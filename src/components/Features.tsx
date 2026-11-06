@@ -17,7 +17,7 @@ export function Features() {
   const { t } = useLang();
 
   return (
-    <section id="services" className="scroll-mt-24 py-20 sm:py-28">
+    <section id="features" className="scroll-mt-24 py-20 sm:py-28">
       <div className="container-x">
         <Reveal>
           <SectionHeader eyebrow={t.features.eyebrow} title={t.features.title} subtitle={t.features.subtitle} />

@@ -36,17 +36,20 @@ export function Hero() {
           <div className="hero-copy">
             <div className="rise hero-kicker hero-kicker-left" style={{ ["--d" as string]: "40ms" }}>
               <span className="hero-kicker-line" />
-              <span>{lang === "am" ? "የንግድ ድረ-ገጽ ዲዛይን + ልማት" : "DIGITAL EXPERIENCES, BUILT FOR BUSINESS"}</span>
+              <span>{t.hero.kicker}</span>
             </div>
 
             <h1 className="rise hero-title hero-title-left" style={{ ["--d" as string]: "120ms" }}>
-              {lang === "am" ? <><span>ንግድዎን</span><span className="hero-title-outline">ኦንላይን</span></> : <><span>Make your business</span><span className="hero-title-outline">look unforgettable.</span></>}
+              {/* A literal space keeps the accessible name ("Make your business look
+                  unforgettable.") intact even though the spans are block-level. */}
+              <span>
+                {t.hero.titleLine1}
+              </span>{" "}
+              <span className="hero-title-outline">{t.hero.titleLine2}</span>
             </h1>
 
             <p className="rise hero-subtitle hero-subtitle-left" style={{ ["--d" as string]: "220ms" }}>
-              {lang === "am"
-                ? "ለኢትዮጵያ ንግዶች ፈጣን፣ ዘመናዊ እና ለደንበኞች ቀላል የሆኑ ድረ-ገጾችን እንገነባለን። ከመክፈልዎ በፊት የንግድዎን ነፃ ናሙና ይመልከቱ።"
-                : "We build polished websites and digital tools that make your business look established, earn trust and turn more visits into enquiries. See your own free prototype before you pay."}
+              {t.hero.subtitleText}
             </p>
 
             <div className="rise hero-actions" style={{ ["--d" as string]: "320ms" }}>
@@ -55,13 +58,13 @@ export function Hero() {
             </div>
 
             <div className="rise hero-trustline hero-trustline-left" style={{ ["--d" as string]: "400ms" }}>
-              <span><Check width={14} height={14} /> {lang === "am" ? "ነፃ ናሙና" : "Free prototype"}</span>
-              <span><Check width={14} height={14} /> {lang === "am" ? "3 ቀን ውስጥ" : "Launch in 3 days"}</span>
-              <span><Check width={14} height={14} /> {lang === "am" ? "ለሞባይል የተዘጋጀ" : "Mobile-first"}</span>
+              <span><Check width={14} height={14} /> {t.hero.trustFree}</span>
+              <span><Check width={14} height={14} /> {t.hero.trustDays}</span>
+              <span><Check width={14} height={14} /> {t.hero.trustMobile}</span>
             </div>
           </div>
 
-          <div className="hero-visual rise" style={{ ["--d" as string]: "240ms" }} aria-label="Preview of websites designed by FirstForm">
+          <div className="hero-visual rise" style={{ ["--d" as string]: "240ms" }} aria-label={t.hero.visualAria}>
             <div className="hero-visual-halo" aria-hidden />
             <div className="hero-browser">
               <div className="hero-browser-top">
@@ -99,7 +102,7 @@ export function Hero() {
               <span className="hero-mobile-label">Looks great on every screen</span>
             </div>
 
-            <div className="hero-visual-caption"><span className="hero-pulse-dot" /> {lang === "am" ? "የምንገነባቸው ድረ-ገጾች" : "A glimpse of what's possible"}</div>
+            <div className="hero-visual-caption"><span className="hero-pulse-dot" /> {t.hero.visualLabel}</div>
           </div>
         </div>
       </div>

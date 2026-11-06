@@ -154,7 +154,12 @@ function DesktopShot({ url, name, accent }: { url: string; name: string; accent:
 
 function PhoneShot({ url, name }: { url: string; name: string }) {
   const { src, status, onLoad, onError, hostRef } = useLiveShot(url, "phone");
-  if (status === "failed" || !src) return null;
+  /*
+   * The host element must stay mounted: it carries the IntersectionObserver
+   * ref that flips `enabled` on. Returning null while `src` is still empty
+   * would unmount the observer and the phone shot would never load.
+   */
+  if (status === "failed") return null;
   return (
     <div
       ref={hostRef}
@@ -166,16 +171,18 @@ function PhoneShot({ url, name }: { url: string; name: string }) {
     >
       <div className="relative aspect-[9/19] overflow-hidden rounded-[15px] bg-white sm:rounded-[18px]">
         <span className="absolute top-1.5 left-1/2 z-10 h-1.5 w-8 -translate-x-1/2 rounded-full bg-ink-950" />
-        <img
-          src={src}
-          alt={`${name} on mobile`}
-          loading="lazy"
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onLoad={onLoad}
-          onError={onError}
-          className="h-full w-full object-cover object-top"
-        />
+        {src && (
+          <img
+            src={src}
+            alt={`${name} on mobile`}
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            onLoad={onLoad}
+            onError={onError}
+            className="h-full w-full object-cover object-top"
+          />
+        )}
       </div>
     </div>
   );
@@ -183,7 +190,6 @@ function PhoneShot({ url, name }: { url: string; name: string }) {
 
 export function Showcase() {
   const { t } = useLang();
-  const [filter, setFilter] = useState(0);
   const [projects, setProjects] = useState<DisplayProject[]>(() => fallbackProjects(t));
 
   useEffect(() => {
@@ -211,11 +217,18 @@ export function Showcase() {
   }, []);
 
   const categories = Array.from(new Set(projects.map((p) => p.category).filter(Boolean)));
-  const filters = [t.showcase.filters[0] || "All", ...categories];
+  const allLabel = t.showcase.filters[0] || "All";
+  /* Filter by category value, not by index — the category list changes when the
+     projects are loaded from the database, which would shift every index. */
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const filters: Array<{ key: string | null; label: string }> = [
+    { key: null, label: allLabel },
+    ...categories.map((c) => ({ key: c, label: c })),
+  ];
 
   const visible = projects.filter((p) => {
-    if (filter === 0) return true;
-    return p.category === categories[filter - 1];
+    if (activeCategory === null) return true;
+    return p.category === activeCategory;
   });
 
   return (
@@ -226,19 +239,19 @@ export function Showcase() {
         </Reveal>
 
         <div className="mt-8 flex flex-wrap justify-center gap-2 sm:mt-10" role="tablist" aria-label="Portfolio filters">
-          {filters.map((label, i) => (
+          {filters.map((f) => (
             <button
-              key={label}
+              key={f.key ?? "all"}
               type="button"
               role="tab"
-              aria-selected={filter === i}
-              onClick={() => setFilter(i)}
+              aria-selected={activeCategory === f.key}
+              onClick={() => setActiveCategory(f.key)}
               className={cn(
                 "rounded-full px-4 py-2 text-[12px] font-semibold transition-all duration-300",
-                filter === i ? "bg-ink-950 text-white shadow-soft" : "bg-white text-ink-500 ring-1 ring-ink-900/8 hover:text-ink-950",
+                activeCategory === f.key ? "bg-ink-950 text-white shadow-soft" : "bg-white text-ink-500 ring-1 ring-ink-900/8 hover:text-ink-950",
               )}
             >
-              {label}
+              {f.label}
             </button>
           ))}
         </div>

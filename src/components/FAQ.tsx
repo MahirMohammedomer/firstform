@@ -51,7 +51,15 @@ export function FAQ() {
                       </span>
                     </button>
                   </h3>
-                  <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-button`} className="faq-panel" data-open={isOpen}>
+                  <div
+                    id={`${id}-panel`}
+                    role="region"
+                    aria-labelledby={`${id}-button`}
+                    className="faq-panel"
+                    data-open={isOpen}
+                    /* Collapse the panel for assistive tech and keyboard users when closed. */
+                    inert={!isOpen}
+                  >
                     <div>
                       <p className="px-4 pb-6 text-[15px] leading-relaxed text-ink-500 sm:pr-16">{item.a}</p>
                     </div>
