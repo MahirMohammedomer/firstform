@@ -1,52 +1,116 @@
 import { useLang } from "../context/LanguageContext";
-import { CONTACT } from "../i18n";
+import { CONTACT, waLink } from "../i18n";
 import { Reveal } from "./Reveal";
-import { Button, Eyebrow, TelegramButton, WhatsAppButton } from "./ui";
-import { PhoneIcon } from "./Icons";
+import { ArrowRight } from "./Icons";
+import { useOffer } from "../context/OfferContext";
+
+/* Gravity-style isometric illustration: server cubes + floating browser card */
+function IsoArt() {
+  const cube = (cx: number, cy: number, s: number, top: string, left: string, right: string) => {
+    const w = s * 0.866;
+    const h = s * 0.5;
+    const N = `${cx},${cy - h * 2}`;
+    const E = `${cx + w},${cy - h}`;
+    const S = `${cx},${cy}`;
+    const W = `${cx - w},${cy - h}`;
+    return (
+      <g>
+        <polygon points={`${N} ${E} ${S} ${W}`} fill={top} />
+        <polygon points={`${W} ${S} ${cx},${cy + s} ${cx - w},${cy - h + s}`} fill={left} />
+        <polygon points={`${E} ${S} ${cx},${cy + s} ${cx + w},${cy - h + s}`} fill={right} />
+      </g>
+    );
+  };
+  return (
+    <svg viewBox="0 0 520 400" className="h-full w-full" aria-hidden>
+      <defs>
+        <linearGradient id="ctaCard" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#eef2ff" />
+        </linearGradient>
+      </defs>
+      {/* ground grid */}
+      {[60, 120, 180, 240, 300, 360].map((y) => (
+        <line key={y} x1="40" y1={y} x2="480" y2={y} stroke="#e8eaf3" strokeWidth="1" />
+      ))}
+      {[40, 110, 180, 250, 320, 390, 460].map((x) => (
+        <line key={x} x1={x} y1="40" x2={x} y2="380" stroke="#e8eaf3" strokeWidth="1" />
+      ))}
+      {/* connection lines + dots */}
+      <path d="M150 260 L260 200 L370 250 L260 200 L260 120" stroke="#c7cbf0" strokeWidth="1.5" fill="none" strokeDasharray="4 5" />
+      {[[150, 260], [370, 250], [260, 120]].map(([x, y]) => (
+        <circle key={`${x}-${y}`} cx={x} cy={y} r="4" fill="#a5b4fc" />
+      ))}
+      {/* cubes */}
+      {cube(150, 250, 46, "#c4b5fd", "#7c3aed", "#5b21b6")}
+      {cube(370, 240, 46, "#c4b5fd", "#7c3aed", "#5b21b6")}
+      {cube(260, 190, 64, "#ddd6fe", "#8b5cf6", "#6d28d9")}
+      {/* gear on the big cube's right face */}
+      <g transform="translate(292 205) scale(0.9)">
+        <circle r="14" fill="#fff" opacity="0.92" />
+        <circle r="5" fill="#6d28d9" />
+        {[0, 60, 120, 180, 240, 300].map((a) => (
+          <line key={a} x1={Math.cos((a * Math.PI) / 180) * 6} y1={Math.sin((a * Math.PI) / 180) * 6} x2={Math.cos((a * Math.PI) / 180) * 12} y2={Math.sin((a * Math.PI) / 180) * 12} stroke="#6d28d9" strokeWidth="3" strokeLinecap="round" />
+        ))}
+      </g>
+      {/* floating browser card */}
+      <g transform="translate(330 60)">
+        <rect x="0" y="0" width="150" height="100" rx="12" fill="url(#ctaCard)" stroke="#e0e4f5" strokeWidth="1.5" />
+        <rect x="0" y="0" width="150" height="22" rx="12" fill="#eef2ff" />
+        <circle cx="14" cy="11" r="3" fill="#f4a39d" />
+        <circle cx="25" cy="11" r="3" fill="#f1cf75" />
+        <circle cx="36" cy="11" r="3" fill="#8bc7a0" />
+        <rect x="14" y="34" width="52" height="8" rx="4" fill="#6366f1" />
+        <rect x="14" y="50" width="122" height="6" rx="3" fill="#e5e9f8" />
+        <rect x="14" y="62" width="100" height="6" rx="3" fill="#e5e9f8" />
+        <path d="M14 88 L40 74 L62 82 L92 66 L136 72" stroke="#6366f1" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      </g>
+      <circle cx="90" cy="90" r="5" fill="#fbbf24" />
+      <circle cx="450" cy="320" r="5" fill="#a5b4fc" />
+      <circle cx="60" cy="330" r="4" fill="#f9a8d4" />
+    </svg>
+  );
+}
 
 export function CTA() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const { offer } = useOffer();
 
   return (
-    <section id="contact" className="scroll-mt-24 px-4 py-6 sm:px-6 sm:py-10">
+    <section id="contact" className="cta-split-wrap scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
       <Reveal dir="scale">
-        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-ink-950 px-6 py-20 text-center text-white sm:rounded-[40px] sm:px-12 sm:py-28">
-          <div className="pointer-events-none absolute inset-0" aria-hidden>
-            <div className="drift absolute -top-40 left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-accent-500/25 blur-[140px]" />
-            <div className="drift-slow absolute -bottom-40 left-10 h-[400px] w-[400px] rounded-full bg-emerald-400/15 blur-[120px]" />
-            <div className="drift absolute -right-20 bottom-0 h-[400px] w-[400px] rounded-full bg-amber-300/10 blur-[120px]" style={{ animationDelay: "-10s" }} />
-            <div
-              className="absolute inset-0 opacity-[0.35]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
-                backgroundSize: "56px 56px",
-                maskImage: "radial-gradient(ellipse 60% 60% at 50% 50%, #000 20%, transparent 100%)",
-                WebkitMaskImage: "radial-gradient(ellipse 60% 60% at 50% 50%, #000 20%, transparent 100%)",
-              }}
-            />
+        <div className="cta-split mx-auto grid max-w-7xl items-center gap-10 overflow-hidden lg:grid-cols-2">
+          {/* Left: brand lockup + copy + pill CTA (Gravity style) */}
+          <div className="px-7 py-12 sm:px-12 lg:py-20">
+            <div className="cta-brand">
+              <span className="cta-brand-mark">F</span>
+              <span className="cta-brand-name">Firstform</span>
+            </div>
+            <h2 className="mt-7 max-w-md text-balance text-[2rem] font-medium leading-[1.15] tracking-tight text-ink-700 sm:text-[2.6rem]">
+              {t.cta.title}{" "}
+              <b className="font-bold text-ink-950">{lang === "am" ? t.cta.eyebrow : "before you pay."}</b>
+            </h2>
+            <p className="mt-5 max-w-md text-[16px] leading-relaxed text-ink-500">{t.cta.subtitle}</p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <a
+                href={waLink(lang, offer?.code)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-pill"
+              >
+                {t.nav.cta}
+                <ArrowRight width={16} height={16} />
+              </a>
+              <a href={`tel:${CONTACT.phoneIntl}`} className="text-[14px] font-semibold text-ink-400 transition hover:text-ink-700">
+                {CONTACT.phoneDisplay}
+              </a>
+            </div>
+            <p className="mt-5 text-[13px] text-ink-400">{t.cta.micro}</p>
           </div>
 
-          <div className="relative mx-auto max-w-3xl">
-            <Eyebrow light className="justify-center">
-              {t.cta.eyebrow}
-            </Eyebrow>
-            <h2 className="mt-5 text-balance text-[2.5rem] font-semibold leading-[1.04] tracking-tightest sm:text-6xl">{t.cta.title}</h2>
-            <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-white/60 sm:text-xl">{t.cta.subtitle}</p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <WhatsAppButton size="lg" className="w-full sm:w-auto">
-                {t.cta.whatsapp}
-              </WhatsAppButton>
-              <TelegramButton size="lg" className="w-full sm:w-auto">
-                {t.cta.telegram}
-              </TelegramButton>
-              <Button variant="white" size="lg" href={`tel:${CONTACT.phoneIntl}`} className="w-full sm:w-auto">
-                <PhoneIcon width={17} height={17} />
-                {CONTACT.phoneDisplay}
-              </Button>
-            </div>
-            <p className="mt-6 text-[13px] text-white/40">{t.cta.micro}</p>
+          {/* Right: isometric illustration */}
+          <div className="cta-art px-4 pb-8 lg:px-8 lg:pb-0" aria-hidden>
+            <IsoArt />
           </div>
         </div>
       </Reveal>

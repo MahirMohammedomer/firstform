@@ -113,6 +113,11 @@ const en = {
     title: "We build more than websites.",
     subtitle: "If your business needs a website, online store, management system or a custom digital workflow, Firstform can design and build it around the way you actually work.",
     built: "Built around your workflow",
+    bullets: [
+      ["Custom, mobile-first design", "WhatsApp, Telegram & call buttons", "Google Maps & local SEO"],
+      ["Product catalog & checkout", "Photo gallery & contact form", "Payments & integrations"],
+      ["Admin dashboards & user roles", "Automation & API integrations", "CMS, e-commerce or business system"],
+    ],
     items: [
       { title: "Business websites", desc: "Modern, fast, mobile-first websites for Ethiopian businesses, organizations and professionals.", tag: "Web design & development" },
       { title: "E-commerce", desc: "Online shops with products, categories, checkout, orders, delivery workflows and payments.", tag: "Sell online" },
@@ -545,6 +550,11 @@ const am: typeof en = {
     title: "ከድረ-ገጽ በላይ እንገነባለን።",
     subtitle: "ንግድዎ ድረ-ገጽ፣ የመስመር ላይ ሱቅ፣ የአስተዳደር ሲስተም ወይም ብጁ የሥራ ሂደት ካስፈለገው፣ በትክክለኛው የንግድዎ አሠራር ላይ እንዲመሠረት እንነድፋለን።",
     built: "በሥራ ሂደትዎ መሠረት የተሠራ",
+    bullets: [
+      ["ብጁ ዲዛይን na mobile-first", "WhatsApp, Telegram na ጥሪ", "Google Maps + basic SEO"],
+      ["E-commerce catalog na checkout", "Gallery na contact form", "Payments na integrations"],
+      ["Admin dashboard na user roles", "Automation na API integrations", "CMS, e-commerce atau business system"],
+    ],
     items: [
       { title: "የንግድ ድረ-ገጾች", desc: "ለኢትዮጵያ ንግዶች፣ ድርጅቶችና ባለሙያዎች ዘመናዊ፣ ፈጣንና mobile-first ድረ-ገጾች።", tag: "Web design & development" },
       { title: "E-commerce", desc: "ምርቶች፣ ምድቦች፣ checkout፣ ትዕዛዞች፣ ማድረስና ክፍያ።", tag: "Online shop" },
