@@ -203,6 +203,122 @@ html[data-lang="am"] .latin {
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
+/* The proof band replaces it with a wider, softer edge fade. */
+.proof-track {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+/* -------------------------------------------------- proof / business band -- */
+/*
+   The band that scrolls the list of business types we build for. The chips
+   use the same Bolt treatment as the hero: white sheen over the brand blue,
+   so the accent reads as one system rather than scattered colours.
+*/
+.proof-band {
+  background: linear-gradient(180deg, #f4f8ff 0%, #ffffff 100%);
+}
+
+.proof-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 100% at 50% 0%, rgba(147, 197, 253, 0.22), transparent 70%),
+    radial-gradient(ellipse 40% 80% at 12% 30%, rgba(96, 165, 250, 0.12), transparent 72%),
+    radial-gradient(ellipse 40% 80% at 88% 30%, rgba(59, 130, 246, 0.1), transparent 72%);
+}
+
+.proof-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+
+.proof-eyebrow-line {
+  display: block;
+  height: 1px;
+  width: 44px;
+  flex-shrink: 0;
+  background: linear-gradient(to right, transparent, rgba(37, 99, 235, 0.45));
+}
+
+.proof-eyebrow-line:last-child {
+  background: linear-gradient(to left, transparent, rgba(37, 99, 235, 0.45));
+}
+
+/* Fades the track out at both edges so the chips dissolve into the page. */
+.proof-track {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.proof-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 1.15rem 0.6rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  background: linear-gradient(
+    140deg,
+    #ffffff 0%,
+    #eff6ff 34%,
+    #dbeafe 62%,
+    #bfdbfe 100%
+  );
+  box-shadow:
+    0 10px 26px -14px rgba(29, 78, 216, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0b2a54;
+  white-space: nowrap;
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.proof-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.34);
+  box-shadow:
+    0 16px 34px -14px rgba(29, 78, 216, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* The little blue lozenge that carries the accent onto the chip. */
+.proof-chip-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: linear-gradient(155deg, #93c5fd, #1d4ed8);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 3px 8px -3px rgba(29, 78, 216, 0.7);
+}
+
+.proof-chip-text {
+  background: linear-gradient(180deg, #0b2a54, #1d4ed8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* ------------------------------------------------------------- skeleton -- */
 
 .shimmer {
@@ -383,7 +499,7 @@ html[data-lang="am"] .latin {
   position: relative;
   padding-top: 7.5rem;
   padding-bottom: 9rem;
-  background: #060a1c;
+  background: #4a9fe8;
   color: #fff;
 }
 
@@ -404,9 +520,9 @@ html[data-lang="am"] .latin {
   inset: 0;
   background-image: url("/hero-sky.jpg");
   background-size: cover;
-  background-position: center top;
+  background-position: center bottom;
   background-repeat: no-repeat;
-  opacity: 0.92;
+  opacity: 1;
   transform: scale(1.04);
   animation: hero-sky-drift 26s ease-in-out infinite alternate;
 }
@@ -439,18 +555,19 @@ html[data-lang="am"] .latin {
   to   { opacity: 0.85; }
 }
 
-/* Overhead violet-blue bloom (Wope). */
+/* Overhead blue bloom — white light spilling into the brand blue (Bolt). */
 .hero-aurora {
   position: absolute;
   left: 50%;
-  top: -22rem;
-  width: 76rem;
-  height: 62rem;
+  top: -30rem;
+  width: 66rem;
+  height: 54rem;
   transform: translateX(-50%);
   background:
-    radial-gradient(ellipse 44% 40% at 50% 34%, rgba(173, 148, 255, 0.55), transparent 70%),
-    radial-gradient(ellipse 70% 55% at 50% 26%, rgba(96, 86, 226, 0.34), transparent 72%);
-  filter: blur(58px);
+    radial-gradient(ellipse 22% 26% at 50% 32%, rgba(255, 255, 255, 0.5), transparent 70%),
+    radial-gradient(ellipse 34% 36% at 50% 34%, rgba(147, 197, 253, 0.34), transparent 74%),
+    radial-gradient(ellipse 62% 48% at 50% 28%, rgba(59, 130, 246, 0.2), transparent 78%);
+  filter: blur(60px);
   animation: hero-breathe 12s ease-in-out infinite;
 }
 
@@ -459,55 +576,177 @@ html[data-lang="am"] .latin {
   50%      { opacity: 1;    transform: translateX(-50%) scale(1.06); }
 }
 
+/* ----------------------------------------------------------- light beam --- */
+/*
+   A shaft of light entering from the top of the page and landing on the
+   product composition, mirroring the reference: a pure-white core, a blue
+   fringe that falls off into the surrounding sky, and a bright pool of
+   light where the beam meets the product.
+*/
+.hero-beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* The wide blue bloom the beam casts into the surrounding air. */
+.hero-beam-glow {
+  position: absolute;
+  left: 50%;
+  top: -6%;
+  width: 15rem;
+  height: 112%;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(191, 219, 254, 0.26) 30%,
+      rgba(96, 165, 250, 0.17) 64%,
+      rgba(37, 99, 235, 0.08) 88%,
+      transparent 100%
+    );
+  filter: blur(26px);
+  opacity: 0.8;
+  animation: hero-beam-breathe 8s ease-in-out infinite;
+}
+
+/* The bright white core of the shaft. */
+.hero-beam-core {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.9) 40%,
+    rgba(255, 255, 255, 0.8) 74%,
+    rgba(255, 255, 255, 0.4) 93%,
+    transparent 100%
+  );
+  filter: blur(1px);
+  box-shadow:
+    0 0 8px 2px rgba(255, 255, 255, 0.7),
+    0 0 22px 7px rgba(147, 197, 253, 0.6),
+    0 0 54px 18px rgba(59, 130, 246, 0.38);
+  animation: hero-beam-flicker 5s ease-in-out infinite;
+}
+
+/* The blue fringe on either side of the core. */
+.hero-beam-edge {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 44px;
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(37, 99, 235, 0.12) 26%,
+    rgba(96, 165, 250, 0.24) 41%,
+    rgba(191, 219, 254, 0.38) 48%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(191, 219, 254, 0.38) 52%,
+    rgba(96, 165, 250, 0.24) 59%,
+    rgba(37, 99, 235, 0.12) 74%,
+    transparent 100%
+  );
+  filter: blur(7px);
+  animation: hero-beam-flicker 5s ease-in-out infinite;
+  animation-delay: -1.4s;
+}
+
+/* The pool of light where the beam lands on the product. */
+.hero-beam::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  width: 34rem;
+  height: 15rem;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(255, 255, 255, 0.5),
+    rgba(191, 219, 254, 0.24) 36%,
+    rgba(96, 165, 250, 0.1) 60%,
+    transparent 78%
+  );
+  filter: blur(18px);
+  animation: hero-beam-breathe 8s ease-in-out infinite;
+  animation-delay: -2.5s;
+}
+
+@keyframes hero-beam-breathe {
+  0%, 100% { opacity: 0.72; }
+  50%      { opacity: 1; }
+}
+
+@keyframes hero-beam-flicker {
+  0%, 100% { opacity: 0.9; }
+  50%      { opacity: 1; }
+}
+
 /* Perspective floor grid that fades out toward the horizon (Wope). */
 .hero-perspective {
   position: absolute;
   left: -12%;
   right: -12%;
-  bottom: -8rem;
-  height: 22rem;
+  bottom: -12rem;
+  height: 26rem;
   overflow: hidden;
   pointer-events: none;
   perspective: 320px;
   perspective-origin: 50% 0%;
-  opacity: 0.28;
+  opacity: 0.26;
 }
 
 .hero-perspective-grid {
   position: absolute;
   inset: -70% 0 0;
   background-image:
-    linear-gradient(to right, rgba(198, 208, 255, 0.3) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(198, 208, 255, 0.3) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
   background-size: 84px 84px;
   transform: rotateX(74deg);
   transform-origin: 50% 0%;
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, rgba(0, 0, 0, 0.35) 55%, transparent 86%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, rgba(0, 0, 0, 0.35) 55%, transparent 86%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, rgba(0, 0, 0, 0.4) 62%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, rgba(0, 0, 0, 0.4) 62%, transparent 90%);
 }
 
+/* Soften the horizon so the grid dissolves into the sky instead of banding. */
 .hero-perspective-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 30%, rgba(6, 10, 28, 0.72) 82%, rgba(6, 10, 28, 0.95) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 18%,
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(255, 255, 255, 0.16) 100%
+  );
 }
 
-/* Fade the dark sky into the white page beneath it so the section break is
+/* Fade the blue sky into the white page beneath it so the section break is
    a soft cloud line rather than a hard edge. */
 .hero-floor-fade {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 11rem;
+  height: 13rem;
   z-index: -1;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.18) 26%,
-    rgba(255, 255, 255, 0.58) 60%,
-    rgba(255, 255, 255, 0.9) 86%,
+    rgba(255, 255, 255, 0.2) 24%,
+    rgba(255, 255, 255, 0.55) 56%,
+    rgba(255, 255, 255, 0.86) 82%,
     #ffffff 100%
   );
 }
@@ -545,18 +784,19 @@ html[data-lang="am"] .latin {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(214, 222, 255, 0.82);
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 8px rgba(11, 42, 84, 0.4);
 }
 
 .hero-kicker-line {
   display: block;
   height: 1px;
   width: 40px;
-  background: linear-gradient(to right, transparent, rgba(170, 190, 255, 0.85));
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9));
 }
 
 .hero-kicker-line-right {
-  background: linear-gradient(to left, transparent, rgba(170, 190, 255, 0.85));
+  background: linear-gradient(to left, transparent, rgba(255, 255, 255, 0.9));
 }
 
 .hero-title {
@@ -566,7 +806,9 @@ html[data-lang="am"] .latin {
   letter-spacing: -0.055em;
   text-wrap: balance;
   color: #fff;
-  text-shadow: 0 10px 42px rgba(6, 10, 28, 0.55);
+  text-shadow:
+    0 2px 10px rgba(11, 42, 84, 0.32),
+    0 12px 46px rgba(11, 42, 84, 0.34);
 }
 
 .hero-title > span {
@@ -590,8 +832,8 @@ html[data-lang="am"] .latin {
   margin: 1.5rem 0 0;
   font-size: clamp(1rem, 1.3vw, 1.13rem);
   line-height: 1.7;
-  color: rgba(222, 229, 255, 0.82);
-  text-shadow: 0 2px 18px rgba(6, 10, 28, 0.5);
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 16px rgba(11, 42, 84, 0.45);
 }
 
 .hero-actions {
@@ -610,9 +852,10 @@ html[data-lang="am"] .latin {
   justify-content: center;
   gap: 1.25rem;
   margin-top: 1.5rem;
-  color: rgba(206, 215, 250, 0.78);
+  color: rgba(255, 255, 255, 0.94);
   font-weight: 500;
   font-size: 13px;
+  text-shadow: 0 1px 8px rgba(11, 42, 84, 0.4);
 }
 
 .hero-trustline > span {
@@ -637,19 +880,21 @@ html[data-lang="am"] .latin {
   margin-inline: auto;
   padding: 0.6rem 1.1rem;
   border-radius: 999px;
-  border: 1px solid rgba(96, 165, 250, 0.45);
-  background: rgba(11, 18, 44, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  color: #fff;
+  color: #0b2a54;
   font-size: 13px;
   font-weight: 500;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 14px 34px -16px rgba(9, 48, 105, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
 .hero-offer:hover {
-  border-color: rgba(120, 180, 255, 0.75);
-  background: rgba(14, 22, 52, 0.72);
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.96);
+  transform: translateY(-1px);
 }
 
 .hero-offer > span:first-child {
@@ -660,13 +905,13 @@ html[data-lang="am"] .latin {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #a8c8ff;
+  color: #1d4ed8;
 }
 
 .hero-offer strong {
   font-variant-numeric: tabular-nums;
   font-weight: 600;
-  color: #d7e4ff;
+  color: #0b2a54;
 }
 
 /* --------------------------------------------------------------- visual --- */
@@ -691,7 +936,7 @@ html[data-lang="am"] .latin {
   left: 11%;
   top: 6%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(110, 132, 255, 0.34), rgba(88, 106, 232, 0.12) 45%, transparent 72%);
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.6), rgba(147, 197, 253, 0.34) 42%, transparent 72%);
   filter: blur(38px);
   z-index: -1;
   animation: hero-breathe 12s ease-in-out infinite;
@@ -703,13 +948,13 @@ html[data-lang="am"] .latin {
   width: 100%;
   max-width: 640px;
   overflow: visible;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 17px;
   background: #fff;
   box-shadow:
-    0 40px 90px -34px rgba(3, 6, 20, 0.85),
-    0 6px 22px rgba(3, 6, 20, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    0 40px 90px -30px rgba(9, 48, 105, 0.62),
+    0 6px 22px rgba(9, 48, 105, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   transform: rotateY(-6deg) rotateX(2deg);
   transform-origin: center bottom;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.7s;
@@ -719,8 +964,8 @@ html[data-lang="am"] .latin {
 .hero-visual:hover .hero-browser {
   transform: rotateY(-2deg) rotateX(0) translateY(-4px);
   box-shadow:
-    0 52px 110px -34px rgba(3, 6, 20, 0.9),
-    0 6px 22px rgba(3, 6, 20, 0.45);
+    0 52px 110px -30px rgba(9, 48, 105, 0.7),
+    0 6px 22px rgba(9, 48, 105, 0.26);
 }
 
 /* Laptop lid/foot under the browser window. */
@@ -822,12 +1067,13 @@ html[data-lang="am"] .latin {
 
 .hero-site-button {
   display: inline-flex;
-  background: var(--color-accent-500);
+  background: linear-gradient(160deg, #60a5fa, #1d4ed8);
   color: #fff;
   border-radius: 5px;
   padding: 9px 11px;
   font-size: 8px;
   font-weight: 650;
+  box-shadow: 0 6px 14px -6px rgba(29, 78, 216, 0.75);
 }
 
 .hero-site-photo {
@@ -841,14 +1087,25 @@ html[data-lang="am"] .latin {
 .hero-site-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .hero-site-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #ededf0; padding-top: 12px; color: #9a9aa3; font-size: 7px; letter-spacing: 0.1em; }
 
-/* Floating glass cards. */
+/* Floating glass cards — the Bolt treatment: white sheen over brand blue. */
 .hero-floating-card {
   position: absolute;
   z-index: 4;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 13px;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 60px -22px rgba(3, 6, 20, 0.9);
+  background:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(219, 234, 254, 0.96) 12%,
+      rgba(96, 165, 250, 0.96) 34%,
+      rgba(37, 99, 235, 0.97) 62%,
+      rgba(21, 61, 175, 0.98) 100%
+    );
+  box-shadow:
+    0 26px 62px -22px rgba(9, 48, 105, 0.8),
+    0 2px 8px rgba(9, 48, 105, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
@@ -864,19 +1121,20 @@ html[data-lang="am"] .latin {
 
 .hero-visual:hover .hero-work-card { transform: rotate(-1deg) translateY(-5px); }
 
-.hero-card-head { display: flex; align-items: center; gap: 9px; color: #fff; }
-.hero-card-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.16); color: #fff; font-size: 15px; font-weight: 800; }
+.hero-card-head { display: flex; align-items: center; gap: 9px; color: #0b2a54; }
+.hero-card-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(160deg, #ffffff, #bfdbfe); color: #1d4ed8; font-size: 15px; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9); }
 .hero-card-head > span:nth-child(2) { display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .hero-card-head b { font-size: 10px; }
-.hero-card-head small { font-size: 8px; color: rgba(214, 222, 255, 0.7); }
-.hero-card-head > svg { color: rgba(214, 222, 255, 0.75); }
+.hero-card-head small { font-size: 8px; color: rgba(11, 42, 84, 0.68); }
+.hero-card-head > svg { color: rgba(11, 42, 84, 0.6); }
 
 .hero-mini-projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
-.hero-mini-project { position: relative; aspect-ratio: 1.2; overflow: hidden; border-radius: 6px; background: rgba(255, 255, 255, 0.08); }
+.hero-mini-project { position: relative; aspect-ratio: 1.2; overflow: hidden; border-radius: 6px; background: rgba(11, 42, 84, 0.2); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5); }
 .hero-mini-project img { width: 100%; height: 100%; object-fit: cover; }
-.hero-mini-project > span { position: absolute; left: 5px; bottom: 4px; color: #fff; font-size: 8px; font-weight: 700; text-shadow: 0 1px 4px #000; }
+.hero-mini-project > span { position: absolute; left: 5px; bottom: 4px; color: #fff; font-size: 8px; font-weight: 700; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }
 
-.hero-card-foot { display: flex; align-items: center; gap: 7px; margin-top: 10px; color: rgba(214, 222, 255, 0.8); font-size: 9px; }
+/* The footer sits on the deep-blue end of the card, so it reads light. */
+.hero-card-foot { display: flex; align-items: center; gap: 7px; margin-top: 10px; color: rgba(219, 234, 254, 0.95); font-size: 9px; }
 .hero-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #35b875; box-shadow: 0 0 0 3px rgba(53, 184, 117, 0.16); }
 
 /* Phone overlapping the laptop's right edge. */
@@ -894,11 +1152,11 @@ html[data-lang="am"] .latin {
 
 .hero-phone {
   position: relative;
-  border: 3px solid #14141a;
+  border: 3px solid #0b2a54;
   border-radius: 18px;
-  background: #14141a;
+  background: #0b2a54;
   padding: 4px;
-  box-shadow: 0 18px 40px -14px rgba(3, 6, 20, 0.9);
+  box-shadow: 0 18px 40px -14px rgba(9, 48, 105, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .hero-phone-notch {
@@ -910,24 +1168,35 @@ html[data-lang="am"] .latin {
   height: 7px;
   transform: translateX(-50%);
   border-radius: 0 0 7px 7px;
-  background: #14141a;
+  background: #0b2a54;
 }
 
 .hero-phone-screen {
   overflow: hidden;
   min-height: 176px;
   border-radius: 12px;
-  background: #fff;
+  background: linear-gradient(170deg, #ffffff 0%, #eff6ff 58%, #dbeafe 100%);
   padding: 15px 6px 8px;
-  color: #17171b;
+  color: #0b2a54;
 }
 
 .hero-phone-brand { display: block; font-size: 8px; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 8px; }
 .hero-phone-screen > img { display: block; width: 100%; height: 63px; object-fit: cover; border-radius: 5px; }
 .hero-phone-screen > b { display: block; font-size: 12px; line-height: 1.08; letter-spacing: -0.04em; margin-top: 9px; }
-.hero-phone-cta { display: block; margin-top: 8px; border-radius: 4px; background: var(--color-accent-500); padding: 6px; color: #fff; text-align: center; font-size: 7px; font-weight: 650; }
+.hero-phone-cta {
+  display: block;
+  margin-top: 8px;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #60a5fa, #1d4ed8);
+  padding: 6px;
+  color: #fff;
+  text-align: center;
+  font-size: 7px;
+  font-weight: 650;
+  box-shadow: 0 4px 10px -4px rgba(29, 78, 216, 0.7);
+}
 .hero-phone-lines { display: grid; gap: 4px; margin-top: 9px; }
-.hero-phone-lines i { height: 3px; border-radius: 5px; background: #e9e9ee; }
+.hero-phone-lines i { height: 3px; border-radius: 5px; background: rgba(29, 78, 216, 0.14); }
 .hero-phone-lines i:nth-child(2) { width: 75%; }
 .hero-phone-lines i:nth-child(3) { width: 55%; }
 
@@ -942,14 +1211,14 @@ html[data-lang="am"] .latin {
   white-space: nowrap;
   padding: 0.5rem 0.95rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(8, 13, 34, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(219, 234, 254, 0.9));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 18px 40px -20px rgba(3, 6, 20, 0.9);
+  box-shadow: 0 18px 40px -18px rgba(9, 48, 105, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   font-size: 11px;
   font-weight: 600;
-  color: rgba(226, 232, 255, 0.9);
+  color: #0b2a54;
 }
 
 /* Small pulsing status dot. */
