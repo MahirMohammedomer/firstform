@@ -1,30 +1,13 @@
 import { useLang } from "../context/LanguageContext";
-import { Check, Sparkle } from "./Icons";
+import { Check, Sparkle, ArrowUpRight } from "./Icons";
 import { WhatsAppButton, TelegramButton } from "./ui";
 import { useOffer } from "../context/OfferContext";
 import { CountdownInline } from "./Countdown";
 
 const WORK_IMAGES = [
-  {
-    src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-    alt: "Modern business dashboard",
-    label: "Business sites",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80",
-    alt: "Mobile website design",
-    label: "Mobile-first",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80",
-    alt: "E-commerce website",
-    label: "E-commerce",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80",
-    alt: "Clean website design",
-    label: "Clean design",
-  },
+  { src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85", alt: "Business analytics website", label: "Business website" },
+  { src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&q=85", alt: "Mobile web interface", label: "Mobile experience" },
+  { src: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=700&q=85", alt: "E-commerce storefront", label: "Online store" },
 ];
 
 export function Hero() {
@@ -32,132 +15,91 @@ export function Hero() {
   const { offer, remaining } = useOffer();
 
   return (
-    <section id="top" className="relative overflow-hidden pb-12 pt-32 sm:pt-36 lg:pt-40">
-      {/* Ambient background + strong perspective lines */}
+    <section id="top" className="hero-combo relative overflow-hidden pb-14 pt-28 sm:pt-32 lg:pt-36">
       <div className="hero-ambient" aria-hidden>
         <div className="hero-grid" />
         <div className="hero-glow hero-glow-one" />
         <div className="hero-glow hero-glow-two" />
-
-        {/* Strong growing perspective lines (Wope-style) */}
-        <div className="hero-perspective">
-          <div className="hero-perspective-grid" />
-          <div className="hero-perspective-fade" />
-        </div>
+        <div className="hero-perspective"><div className="hero-perspective-grid" /><div className="hero-perspective-fade" /></div>
       </div>
 
       <div className="container-x relative">
-        {/* Text content */}
-        <div className="mx-auto max-w-4xl text-center">
-          {offer && (
-            <a
-              href="#pricing"
-              className="hero-offer rise"
-              style={{ ["--d" as string]: "0ms" }}
-            >
-              <span>
-                <Sparkle width={12} height={12} /> {t.offer.off}
-              </span>
-              {t.offer.heroBadge(offer.holiday.name[lang])}
-              <strong>
-                <CountdownInline ms={remaining} />
-              </strong>
-            </a>
-          )}
+        {offer && (
+          <a href="#pricing" className="hero-offer rise mb-7" style={{ ["--d" as string]: "0ms" }}>
+            <span><Sparkle width={12} height={12} /> {t.offer.off}</span>
+            {t.offer.heroBadge(offer.holiday.name[lang])}
+            <strong><CountdownInline ms={remaining} /></strong>
+          </a>
+        )}
 
-          <div
-            className="rise hero-kicker"
-            style={{ ["--d" as string]: offer ? "80ms" : "0ms" }}
-          >
-            <span className="hero-kicker-line" />
-            <span>
+        <div className="hero-combo-layout">
+          <div className="hero-copy">
+            <div className="rise hero-kicker hero-kicker-left" style={{ ["--d" as string]: "40ms" }}>
+              <span className="hero-kicker-line" />
+              <span>{lang === "am" ? "የንግድ ድረ-ገጽ ዲዛይን + ልማት" : "DIGITAL EXPERIENCES, BUILT FOR BUSINESS"}</span>
+            </div>
+
+            <h1 className="rise hero-title hero-title-left" style={{ ["--d" as string]: "120ms" }}>
+              {lang === "am" ? <><span>ንግድዎን</span><span className="hero-title-outline">ኦንላይን</span></> : <><span>Make your business</span><span className="hero-title-outline">look unforgettable.</span></>}
+            </h1>
+
+            <p className="rise hero-subtitle hero-subtitle-left" style={{ ["--d" as string]: "220ms" }}>
               {lang === "am"
-                ? "የንግድ ድረ-ገጽ ዲዛይን + ልማት"
-                : "WEBSITE DESIGN + DEVELOPMENT FOR BUSINESS"}
-            </span>
-            <span className="hero-kicker-line" />
+                ? "ለኢትዮጵያ ንግዶች ፈጣን፣ ዘመናዊ እና ለደንበኞች ቀላል የሆኑ ድረ-ገጾችን እንገነባለን። ከመክፈልዎ በፊት የንግድዎን ነፃ ናሙና ይመልከቱ።"
+                : "We build polished websites and digital tools that make your business look established, earn trust and turn more visits into enquiries. See your own free prototype before you pay."}
+            </p>
+
+            <div className="rise hero-actions" style={{ ["--d" as string]: "320ms" }}>
+              <WhatsAppButton size="lg" className="w-full sm:w-auto" />
+              <TelegramButton size="lg" className="w-full sm:w-auto" />
+            </div>
+
+            <div className="rise hero-trustline hero-trustline-left" style={{ ["--d" as string]: "400ms" }}>
+              <span><Check width={14} height={14} /> {lang === "am" ? "ነፃ ናሙና" : "Free prototype"}</span>
+              <span><Check width={14} height={14} /> {lang === "am" ? "3 ቀን ውስጥ" : "Launch in 3 days"}</span>
+              <span><Check width={14} height={14} /> {lang === "am" ? "ለሞባይል የተዘጋጀ" : "Mobile-first"}</span>
+            </div>
           </div>
 
-          <h1
-            className="rise hero-title"
-            style={{ ["--d" as string]: offer ? "160ms" : "80ms" }}
-          >
-            {lang === "am" ? (
-              <>
-                <span>ንግድዎን</span>
-                <span className="hero-title-outline">ኦንላይን</span>
-              </>
-            ) : (
-              <>
-                <span>Make your business</span>
-                <span className="hero-title-outline">look unforgettable.</span>
-              </>
-            )}
-          </h1>
-
-          <p
-            className="rise hero-subtitle"
-            style={{ ["--d" as string]: "260ms" }}
-          >
-            {lang === "am"
-              ? "ለኢትዮጵያ ንግዶች ፈጣን፣ ዘመናዊ እና ለደንበኞች ቀላል የሆኑ ድረ-ገጾችን እንገነባለን። ከመክፈልዎ በፊት የንግድዎን ነፃ ናሙና ይመልከቱ።"
-              : "We design and build modern websites that make local businesses look established, credible and ready for their next customer. See your own free prototype before you pay."}
-          </p>
-
-          <div
-            className="rise mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
-            style={{ ["--d" as string]: "360ms" }}
-          >
-            <WhatsAppButton size="lg" className="w-full sm:w-auto" />
-            <TelegramButton size="lg" className="w-full sm:w-auto" />
-          </div>
-
-          <div
-            className="rise hero-trustline"
-            style={{ ["--d" as string]: "440ms" }}
-          >
-            <span>
-              <Check width={14} height={14} />{" "}
-              {lang === "am" ? "ነፃ ናሙና" : "Free prototype"}
-            </span>
-            <span>
-              <Check width={14} height={14} />{" "}
-              {lang === "am" ? "3 ቀን ውስጥ" : "Launch in 3 days"}
-            </span>
-            <span>
-              <Check width={14} height={14} />{" "}
-              {lang === "am" ? "ለሞባይል የተዘጋጀ" : "Mobile-first"}
-            </span>
-          </div>
-        </div>
-
-        {/* Image collection sitting on the perspective lines */}
-        <div className="hero-gallery rise" style={{ ["--d" as string]: "520ms" }}>
-          <div className="hero-gallery-track">
-            {WORK_IMAGES.map((img, i) => (
-              <div
-                key={i}
-                className="hero-gallery-card"
-                style={{ "--i": i } as React.CSSProperties}
-              >
-                <div className="hero-gallery-img-wrap">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading={i < 2 ? "eager" : "lazy"}
-                    decoding="async"
-                  />
-                </div>
-                <div className="hero-gallery-label">{img.label}</div>
+          <div className="hero-visual rise" style={{ ["--d" as string]: "240ms" }} aria-label="Preview of websites designed by FirstForm">
+            <div className="hero-visual-halo" aria-hidden />
+            <div className="hero-browser">
+              <div className="hero-browser-top">
+                <div className="hero-browser-dots"><i /><i /><i /></div>
+                <div className="hero-address"><span className="hero-lock">⌑</span> yourbusiness.com</div>
+                <span className="hero-browser-menu">•••</span>
               </div>
-            ))}
-          </div>
+              <div className="hero-site-preview">
+                <div className="hero-site-nav"><span className="hero-site-logo">your<span>brand.</span></span><span>About&nbsp;&nbsp;&nbsp; Services&nbsp;&nbsp;&nbsp; Contact</span><b>Let's talk ↗</b></div>
+                <div className="hero-site-body">
+                  <div className="hero-site-copy"><span className="hero-site-eyebrow">MADE FOR WHAT'S NEXT</span><strong>Build a brand<br />people remember.</strong><p>Thoughtful digital experiences for ambitious businesses.</p><span className="hero-site-button">Explore our work&nbsp; ↗</span></div>
+                  <div className="hero-site-photo"><img src={WORK_IMAGES[0].src} alt={WORK_IMAGES[0].alt} loading="eager" /></div>
+                </div>
+                <div className="hero-site-foot"><span>DESIGNED WITH PURPOSE</span><span>01 — 03</span></div>
+              </div>
+            </div>
 
-          <div className="hero-gallery-caption">
-            <span className="hero-pulse-dot" />
-            {lang === "am"
-              ? "የምንገነባቸው ድረ-ገጾች"
-              : "Websites we design & build"}
+            <div className="hero-floating-card hero-work-card">
+              <div className="hero-card-head"><span className="hero-card-mark">F.</span><span><b>Selected work</b><small>Recent digital projects</small></span><ArrowUpRight width={16} height={16} /></div>
+              <div className="hero-mini-projects">{WORK_IMAGES.map((img, i) => <div className="hero-mini-project" key={img.label}><img src={img.src} alt={img.alt} loading="lazy" /><span>{String(i + 1).padStart(2, "0")}</span></div>)}</div>
+              <div className="hero-card-foot"><span className="hero-live-dot" /> <span>Design that works harder.</span></div>
+            </div>
+
+            <div className="hero-floating-card hero-mobile-card">
+              <div className="hero-phone">
+                <div className="hero-phone-notch" />
+                <div className="hero-phone-screen">
+                  <span className="hero-phone-brand">yourbrand.</span>
+                  <img src={WORK_IMAGES[1].src} alt={WORK_IMAGES[1].alt} loading="lazy" />
+                  <b>Made to move<br />your business.</b>
+                  <span className="hero-phone-cta">Get started ↗</span>
+                  <div className="hero-phone-lines"><i /><i /><i /></div>
+                </div>
+              </div>
+              <span className="hero-mobile-label">Looks great on every screen</span>
+            </div>
+
+            <div className="hero-visual-caption"><span className="hero-pulse-dot" /> {lang === "am" ? "የምንገነባቸው ድረ-ገጾች" : "A glimpse of what's possible"}</div>
           </div>
         </div>
       </div>
