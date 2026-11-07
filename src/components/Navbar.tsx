@@ -10,40 +10,12 @@ import { OfferBar } from "./OfferBar";
 export function Logo({ className, light }: { className?: string; light?: boolean }) {
   return (
     <a href="#top" className={cn("group inline-flex items-center gap-2.5 min-w-0", className)} aria-label="Firstform home">
-      {/* Signature mark */}
-      <span
-        className={cn(
-          "grid h-9 w-9 shrink-0 place-items-center rounded-[11px] transition-transform duration-500 ease-out group-hover:rotate-[-5deg]",
-          light ? "bg-white" : "bg-ink-950",
-        )}
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 180 160"
-          fill="none"
-          aria-hidden
-          className={light ? "text-ink-950" : "text-white"}
-        >
-          <g transform="translate(10 5)">
-            <path
-              d="M23 128 C39 99 49 62 74 34 C88 18 106 12 119 17 C131 22 135 34 130 45 C124 59 108 68 91 74 C73 80 55 87 45 99 C36 110 36 123 44 130 C54 140 71 140 87 131 C106 120 119 103 135 85"
-              stroke="currentColor"
-              strokeWidth="16"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-            <path
-              d="M72 84 C94 79 119 77 146 80"
-              stroke="currentColor"
-              strokeWidth="16"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </span>
+      {/* Forward-cut mark (new logo) */}
+      <img
+        src="/mark.svg"
+        alt="Firstform logo"
+        className={cn("h-9 w-9 shrink-0 transition-transform duration-500 ease-out group-hover:rotate-[-5deg]", light && "brightness-0 invert")}
+      />
       <span className="min-w-0 flex flex-col leading-none">
         <span className={cn("text-[17px] font-semibold tracking-tight", light ? "text-white" : "text-ink-950")}>
           Firstform

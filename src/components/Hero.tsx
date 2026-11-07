@@ -61,6 +61,12 @@ export function Hero() {
       }}
     >
       <div className="hero-pw-glow" aria-hidden />
+      <div className="pw-clouds" aria-hidden>
+        <span className="pw-cloud pw-c1" />
+        <span className="pw-cloud pw-c2" />
+        <span className="pw-cloud pw-c3" />
+        <span className="pw-cloud pw-c4" />
+      </div>
 
       <div className="container-x relative pb-24 pt-28 sm:pt-32 lg:pb-32 lg:pt-40">
         <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-10">

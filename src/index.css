@@ -740,3 +740,18 @@ img, video, canvas, svg {
 .arc-item:hover .arc-open { opacity:1; transform:translateY(0); }
 @media (max-width:640px){ .arc { overflow-x:auto; justify-content:flex-start; padding-bottom:56px; scrollbar-width:none; }
   .arc::-webkit-scrollbar { display:none; } .arc-item { width:110px; } }
+
+/* === Sky clouds in the gradient hero === */
+.pw-clouds { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.pw-cloud { position:absolute; display:block; width:190px; height:54px; background:#fff; border-radius:999px;
+  opacity:.92; filter:blur(1.5px); box-shadow:0 22px 34px -20px rgba(30,64,175,.35);
+  animation:pw-drift 18s ease-in-out infinite alternate; }
+.pw-cloud::before { content:""; position:absolute; width:86px; height:86px; background:#fff; border-radius:50%; top:-42px; left:30px; }
+.pw-cloud::after { content:""; position:absolute; width:58px; height:58px; background:#fff; border-radius:50%; top:-26px; right:32px; }
+.pw-c1 { top:12%; left:6%; transform:scale(1); }
+.pw-c2 { top:26%; right:8%; width:230px; height:62px; animation-duration:22s; animation-delay:-6s; opacity:.85; }
+.pw-c3 { top:6%; left:38%; width:140px; height:42px; animation-duration:15s; animation-delay:-3s; opacity:.75; }
+.pw-c4 { bottom:24%; left:14%; width:160px; height:46px; animation-duration:20s; animation-delay:-10s; opacity:.6; }
+@keyframes pw-drift { from { margin-left:-16px; } to { margin-left:22px; } }
+@media (max-width:640px){ .pw-c2 { right:-14%; } .pw-c3 { left:24%; } .pw-c4 { display:none; } }
+@media (prefers-reduced-motion:reduce){ .pw-cloud { animation:none; } }
