@@ -1,106 +1,126 @@
 import { useLang } from "../context/LanguageContext";
-import { Check, Sparkle, ArrowUpRight } from "./Icons";
+import { PROJECTS } from "../i18n";
+import { Check, Sparkle } from "./Icons";
 import { WhatsAppButton, TelegramButton } from "./ui";
 import { useOffer } from "../context/OfferContext";
 import { CountdownInline } from "./Countdown";
 
-const WORK_IMAGES = [
-  { src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=85", alt: "Business analytics website", label: "Business website" },
-  { src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&q=85", alt: "Mobile web interface", label: "Mobile experience" },
-  { src: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=700&q=85", alt: "E-commerce storefront", label: "Online store" },
-];
+const shot = (url: string, w = 1400) =>
+  `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=${w}&vpw=1440&vph=900`;
 
 export function Hero() {
-  const { t, lang } = useLang();
+  const { lang } = useLang();
   const { offer, remaining } = useOffer();
+  const main = PROJECTS[0];
+  const side = PROJECTS[1] ?? PROJECTS[0];
 
   return (
-    <section id="top" className="hero-combo relative overflow-hidden pb-14 pt-28 sm:pt-32 lg:pt-36">
-      <div className="hero-ambient" aria-hidden>
-        <div className="hero-grid" />
-        <div className="hero-glow hero-glow-one" />
-        <div className="hero-glow hero-glow-two" />
-        <div className="hero-perspective"><div className="hero-perspective-grid" /><div className="hero-perspective-fade" /></div>
+    <section id="top" className="relative overflow-hidden bg-white pb-16 pt-28 sm:pt-32 lg:pt-36">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-0 opacity-[0.35]" style={{
+          backgroundImage: "linear-gradient(to right, rgba(10,10,11,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,10,11,0.04) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%)",
+        }} />
+        <div className="absolute left-1/2 top-24 h-[420px] w-[700px] -translate-x-1/2 rounded-full bg-accent-500/[0.06] blur-[100px]" />
       </div>
 
       <div className="container-x relative">
-        {offer && (
-          <a href="#pricing" className="hero-offer rise mb-7" style={{ ["--d" as string]: "0ms" }}>
-            <span><Sparkle width={12} height={12} /> {t.offer.off}</span>
-            {t.offer.heroBadge(offer.holiday.name[lang])}
-            <strong><CountdownInline ms={remaining} /></strong>
-          </a>
-        )}
+        <div className="mx-auto max-w-3xl text-center">
+          {offer && (
+            <a href="#pricing" className="hero-offer rise mb-6 inline-flex" style={{ ["--d" as string]: "0ms" }}>
+              <span><Sparkle width={12} height={12} /> {lang === "am" ? "20% ቅናሽ" : "20% off"}</span>
+              {lang === "am" ? "የበዓል ቅናሽ" : "Holiday offer"}
+              <strong><CountdownInline ms={remaining} /></strong>
+            </a>
+          )}
 
-        <div className="hero-combo-layout">
-          <div className="hero-copy">
-            <div className="rise hero-kicker hero-kicker-left" style={{ ["--d" as string]: "40ms" }}>
-              <span className="hero-kicker-line" />
-              <span>{lang === "am" ? "የንግድ ድረ-ገጽ ዲዛይን + ልማት" : "DIGITAL EXPERIENCES, BUILT FOR BUSINESS"}</span>
-            </div>
+          <p className="rise text-[11px] font-bold uppercase tracking-[0.2em] text-ink-500" style={{ ["--d" as string]: "60ms" }}>
+            {lang === "am" ? "የንግድ ድረ-ገጽ ዲዛይን + ልማት" : "Website design + development for business"}
+          </p>
 
-            <h1 className="rise hero-title hero-title-left" style={{ ["--d" as string]: "120ms" }}>
-              {lang === "am" ? <><span>ንግድዎን</span><span className="hero-title-outline">ኦንላይን</span></> : <><span>Make your business</span><span className="hero-title-outline">look unforgettable.</span></>}
-            </h1>
+          <h1
+            className="rise mt-4 text-[clamp(2.75rem,7.5vw,5.25rem)] font-semibold leading-[0.95] tracking-tightest text-ink-950"
+            style={{ ["--d" as string]: "120ms" }}
+          >
+            {lang === "am" ? (
+              <>ንግድዎን <span className="text-transparent" style={{ WebkitTextStroke: "1.5px #0a0a0b" }}>ኦንላይን</span> ያድርጉት።</>
+            ) : (
+              <>Make your business <span className="text-transparent" style={{ WebkitTextStroke: "1.5px #0a0a0b" }}>look unforgettable.</span></>
+            )}
+          </h1>
 
-            <p className="rise hero-subtitle hero-subtitle-left" style={{ ["--d" as string]: "220ms" }}>
-              {lang === "am"
-                ? "ለኢትዮጵያ ንግዶች ፈጣን፣ ዘመናዊ እና ለደንበኞች ቀላል የሆኑ ድረ-ገጾችን እንገነባለን። ከመክፈልዎ በፊት የንግድዎን ነፃ ናሙና ይመልከቱ።"
-                : "We build polished websites and digital tools that make your business look established, earn trust and turn more visits into enquiries. See your own free prototype before you pay."}
-            </p>
+          <p className="rise mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-ink-600 sm:text-[17px]" style={{ ["--d" as string]: "200ms" }}>
+            {lang === "am"
+              ? "ለኢትዮጵያ ንግዶች ፈጣን፣ ዘመናዊ ድረ-ገጾችን እንገነባለን። ከመክፈልዎ በፊት የንግድዎን ነፃ ናሙና ይመልከቱ።"
+              : "We design and build modern websites that make local businesses look established and ready for their next customer. See your free prototype before you pay."}
+          </p>
 
-            <div className="rise hero-actions" style={{ ["--d" as string]: "320ms" }}>
-              <WhatsAppButton size="lg" className="w-full sm:w-auto" />
-              <TelegramButton size="lg" className="w-full sm:w-auto" />
-            </div>
-
-            <div className="rise hero-trustline hero-trustline-left" style={{ ["--d" as string]: "400ms" }}>
-              <span><Check width={14} height={14} /> {lang === "am" ? "ነፃ ናሙና" : "Free prototype"}</span>
-              <span><Check width={14} height={14} /> {lang === "am" ? "3 ቀን ውስጥ" : "Launch in 3 days"}</span>
-              <span><Check width={14} height={14} /> {lang === "am" ? "ለሞባይል የተዘጋጀ" : "Mobile-first"}</span>
-            </div>
+          <div className="rise mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row" style={{ ["--d" as string]: "280ms" }}>
+            <WhatsAppButton size="lg" className="w-full sm:w-auto" />
+            <TelegramButton size="lg" className="w-full sm:w-auto" />
           </div>
 
-          <div className="hero-visual rise" style={{ ["--d" as string]: "240ms" }} aria-label="Preview of websites designed by FirstForm">
-            <div className="hero-visual-halo" aria-hidden />
-            <div className="hero-browser">
-              <div className="hero-browser-top">
-                <div className="hero-browser-dots"><i /><i /><i /></div>
-                <div className="hero-address"><span className="hero-lock">⌑</span> yourbusiness.com</div>
-                <span className="hero-browser-menu">•••</span>
-              </div>
-              <div className="hero-site-preview">
-                <div className="hero-site-nav"><span className="hero-site-logo">your<span>brand.</span></span><span>About&nbsp;&nbsp;&nbsp; Services&nbsp;&nbsp;&nbsp; Contact</span><b>Let's talk ↗</b></div>
-                <div className="hero-site-body">
-                  <div className="hero-site-copy"><span className="hero-site-eyebrow">MADE FOR WHAT'S NEXT</span><strong>Build a brand<br />people remember.</strong><p>Thoughtful digital experiences for ambitious businesses.</p><span className="hero-site-button">Explore our work&nbsp; ↗</span></div>
-                  <div className="hero-site-photo"><img src={WORK_IMAGES[0].src} alt={WORK_IMAGES[0].alt} loading="eager" /></div>
-                </div>
-                <div className="hero-site-foot"><span>DESIGNED WITH PURPOSE</span><span>01 — 03</span></div>
-              </div>
-            </div>
-
-            <div className="hero-floating-card hero-work-card">
-              <div className="hero-card-head"><span className="hero-card-mark">F.</span><span><b>Selected work</b><small>Recent digital projects</small></span><ArrowUpRight width={16} height={16} /></div>
-              <div className="hero-mini-projects">{WORK_IMAGES.map((img, i) => <div className="hero-mini-project" key={img.label}><img src={img.src} alt={img.alt} loading="lazy" /><span>{String(i + 1).padStart(2, "0")}</span></div>)}</div>
-              <div className="hero-card-foot"><span className="hero-live-dot" /> <span>Design that works harder.</span></div>
-            </div>
-
-            <div className="hero-floating-card hero-mobile-card">
-              <div className="hero-phone">
-                <div className="hero-phone-notch" />
-                <div className="hero-phone-screen">
-                  <span className="hero-phone-brand">yourbrand.</span>
-                  <img src={WORK_IMAGES[1].src} alt={WORK_IMAGES[1].alt} loading="lazy" />
-                  <b>Made to move<br />your business.</b>
-                  <span className="hero-phone-cta">Get started ↗</span>
-                  <div className="hero-phone-lines"><i /><i /><i /></div>
-                </div>
-              </div>
-              <span className="hero-mobile-label">Looks great on every screen</span>
-            </div>
-
-            <div className="hero-visual-caption"><span className="hero-pulse-dot" /> {lang === "am" ? "የምንገነባቸው ድረ-ገጾች" : "A glimpse of what's possible"}</div>
+          <div className="rise mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] text-ink-500" style={{ ["--d" as string]: "340ms" }}>
+            <span className="inline-flex items-center gap-1.5"><Check width={14} height={14} className="text-emerald-600" /> {lang === "am" ? "ነፃ ናሙና" : "Free prototype"}</span>
+            <span className="inline-flex items-center gap-1.5"><Check width={14} height={14} className="text-emerald-600" /> {lang === "am" ? "3 ቀን ውስጥ" : "Launch in 3 days"}</span>
+            <span className="inline-flex items-center gap-1.5"><Check width={14} height={14} className="text-emerald-600" /> {lang === "am" ? "ለሞባይል የተዘጋጀ" : "Mobile-first"}</span>
           </div>
+        </div>
+
+        <div className="hero-devices rise relative mx-auto mt-14 max-w-4xl" style={{ ["--d" as string]: "400ms" }}>
+          <div className="hero-laptop">
+            <div className="hero-laptop-bezel">
+              <div className="hero-laptop-cam" />
+              <div className="hero-laptop-screen">
+                <div className="hero-browser-chrome">
+                  <div className="flex gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                  </div>
+                  <div className="hero-url-pill">
+                    <span className="text-emerald-600">⌁</span>
+                    {main.name.toLowerCase().replace(/\s+/g, "")}.com
+                  </div>
+                </div>
+                <img
+                  src={shot(main.url, 1400)}
+                  alt={`${main.name} website by Firstform`}
+                  className="hero-screen-img"
+                  loading="eager"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+            <div className="hero-laptop-base">
+              <div className="hero-laptop-notch" />
+            </div>
+            <div className="hero-laptop-shadow" />
+          </div>
+
+          <div className="hero-phone-device">
+            <div className="hero-phone-frame">
+              <div className="hero-phone-notch" />
+              <div className="hero-phone-screen">
+                <img
+                  src={shot(side.url, 700)}
+                  alt={`${side.name} mobile website`}
+                  className="hero-phone-img"
+                  loading="eager"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+            <div className="hero-phone-shadow" />
+          </div>
+
+          <p className="mt-8 text-center text-[12px] font-medium text-ink-400">
+            <span className="mr-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            {lang === "am" ? "የእውነተኛ ድረ-ገጾች ቅድመ-ዕይታ" : "Live website previews · Real projects"}
+          </p>
         </div>
       </div>
     </section>
